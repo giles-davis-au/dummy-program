@@ -186,12 +186,27 @@ has YAML frontmatter (paths inside it are vault-relative — see "Repository lay
 type: project | person | decision
 id: kebab-case-id
 status: <free text, e.g. active / superseded / on-leave>
-updated: YYYY-MM-DD        # in-story date of the most recent fact on this page
+updated: YYYY-MM-DD        # in-story date this page was last edited — see below
+decided: YYYY-MM-DD        # decision pages only — see below
 sources:
   - sources/slack/YYYY-MM-DD.md#anchor
   - sources/gdrive/YYYY-MM-DD.md#anchor
 ---
 ```
+
+**`updated:` is never a proxy for when the thing this page is about actually
+happened — only for when this page was last edited.** For a page that's an ongoing
+log of many dated events (a person's interactions, a project's timeline), that's
+fine: the individual dated entries stay in the prose, `updated:` is just a freshness
+signal, and answering "what happened in July" means reading the page, not trusting
+`updated:` alone. But a decision page is about exactly *one* dated thing, and its
+`updated:` can legitimately move away from that date later — e.g. when a page gets
+edited to record it was superseded, `updated:` correctly becomes the supersession
+date, not the original decision date. So decision pages carry a second, required
+field: **`decided:`**, the date the decision was actually made, sourced from the
+same evidence as everything else on the page (typically the RAID log's Date column)
+and never touched again once set — a query like "decisions made in July" should be
+answered from `decided:`, never from `updated:`.
 
 Every durable claim needs an inline citation back to a `sources/` file (in-story date +
 lane), or an explicit confidence/limit note if it can't be corroborated. Don't invent
@@ -236,8 +251,17 @@ On each refresh:
 6. **Regenerate state.** Run `bin/regenerate-state` to rebuild `wiki/current-state.md`,
    `wiki/current-state.json`, and `wiki/entity-index.json` from the durable pages +
    log. Never hand-edit these three files.
-7. **Lint.** Run `bin/lint-wiki`. Fix or explicitly note any failures before declaring
-   the refresh done.
+7. **Lint.** Run `bin/lint-wiki`. This checks every existing durable page, not just
+   ones touched by this refresh — so a schema change (e.g. a newly-required
+   frontmatter key) surfaces as an error on old pages too, not only new ones. If a
+   flagged page's missing value is derivable from a source it already cites, fix it
+   as part of this refresh — don't just note the gap and move on, and don't wait for
+   that page to be touched for some unrelated reason. This is a straight backfill
+   from evidence already vetted on that page, not a contradiction to resolve, so the
+   three-outcome contradiction gate doesn't apply. If the missing value *isn't*
+   derivable from an already-cited source, don't fabricate one — leave the error and
+   report it as a coverage gap, same as any other missing evidence. Otherwise, fix or
+   explicitly note any remaining failures before declaring the refresh done.
 8. **Log.** Append one entry to `wiki/log.md`: as-of date, coverage per lane, pages
    touched, contradictions and their resolution, judgment items left for the owner.
 9. **Commit.** `git commit` the changed files with a message naming the as-of date.

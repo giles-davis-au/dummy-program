@@ -12,6 +12,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import _wikilib as W  # noqa: E402
 
 REQUIRED_KEYS = ["type", "id", "status", "updated"]
+TYPE_REQUIRED_KEYS = {
+    "decision": ["decided"],
+}
 STALE_DAYS = 30
 
 
@@ -41,6 +44,10 @@ def check_frontmatter(errors, warnings):
         for key in REQUIRED_KEYS:
             if not meta.get(key):
                 errors.append(f"{W.repo_rel(path)}: missing required frontmatter key '{key}'")
+        for key in TYPE_REQUIRED_KEYS.get(meta.get("type"), []):
+            if not meta.get(key):
+                errors.append(f"{W.repo_rel(path)}: missing required frontmatter key '{key}' "
+                               f"(required for type '{meta.get('type')}')")
         if len(body.strip()) < 40:
             errors.append(f"{W.repo_rel(path)}: page body looks empty (<40 chars)")
 
