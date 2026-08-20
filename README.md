@@ -1,7 +1,7 @@
 # FlexPay AU Second Brain (local-only)
 
 A living Markdown wiki for the synthetic FlexPay AU programme, built per
-[a second-brain blueprint](../ai-second-brain-blueprint.md) — local-only,
+[a second-brain blueprint](ai-second-brain-blueprint.md) — local-only,
 Version 0/1 (manual local wiki + generated state + read-only chat connection). See
 [synthetic-dataset-reading-guide.md](synthetic-dataset-reading-guide.md) for the
 dataset-specific quirks this build corrects for, and [CLAUDE.md](CLAUDE.md) for the
@@ -70,9 +70,15 @@ or just `refresh` to let it pick the next natural cutoff. Rules (full detail in
 - **`bin/lint-wiki` fails on a broken link / orphan page** — the refresh that
   introduced it didn't finish integration; check `wiki/log.md`'s latest entry for what
   was in flight.
-- **`wiki/current-state.md` looks stale** — regenerate it: `python3 bin/regenerate-state`.
-  If `wiki/log.md`'s cursor is newer than what's shown, that's the signal something
-  didn't get regenerated after the last refresh.
+- **`wiki/current-state.md` looks out of sync** (not the same thing as a "stale" page —
+  see below) — regenerate it: `python3 bin/regenerate-state`. If `wiki/log.md`'s cursor
+  is newer than what's shown, that's the signal something didn't get regenerated after
+  the last refresh.
+- **`bin/lint-wiki` warns a page is "stale"** — a different meaning: a durable page's
+  `updated:` frontmatter date hasn't moved in over 30 story-days relative to
+  `wiki/log.md`'s as-of cursor (in-story time, not wall-clock time — see `CLAUDE.md`).
+  It's a warning, not an error (`bin/lint-wiki` still exits 0), and it's printed to the
+  terminal only — nothing writes it into `current-state.md` or `log.md`.
 - **A source lane looks empty in `wiki/log.md`** — check whether the entry says
   `unavailable` (access/auth problem) vs `no material activity` (queried fine, nothing
   new). They're recorded as different things on purpose.

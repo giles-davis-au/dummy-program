@@ -3,7 +3,7 @@
 This file is the canonical instruction set for this repository. Claude Code loads it
 automatically. Read it before any ingest, refresh, query, or lint action.
 
-Built from [an AI second-brain blueprint](../ai-second-brain-blueprint.md)
+Built from [an AI second-brain blueprint](ai-second-brain-blueprint.md)
 (local-only, Version 0/1 minimum viable build) plus the dataset-specific addendum in
 [synthetic-dataset-reading-guide.md](synthetic-dataset-reading-guide.md). Where this file
 is silent, defer to the blueprint. Where the two conflict on a dataset-specific point
