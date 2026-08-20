@@ -1,6 +1,6 @@
 # Current State — FlexPay AU
 
-_Generated 2026-08-20T05:27:26Z from durable pages + log.md. As-of cursor: 2026-07-15._
+_Generated 2026-08-20T05:33:48Z from durable pages + log.md. As-of cursor: 2026-07-15._
 
 Do not hand-edit this file — run `bin/regenerate-state` instead.
 

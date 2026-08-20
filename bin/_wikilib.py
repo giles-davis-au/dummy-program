@@ -13,9 +13,9 @@ LOG_ASOF_RE = re.compile(r"^##\s*Refresh\s*[—-]\s*as-of\s+(\d{4}-\d{2}-\d{2})"
 
 
 def vault_rel(path):
-    """Path relative to wiki/ (the Obsidian vault root) — used for anything written
-    into vault content itself (current-state.*, entity-index.json), so it stays
-    correct regardless of where the repo lives on disk."""
+    """Path relative to wiki/ (the knowledge-content root) — used for anything
+    written into wiki content itself (current-state.*, entity-index.json), so it
+    stays correct regardless of where the repo lives on disk or what tool reads it."""
     return os.path.relpath(path, WIKI_ROOT)
 
 

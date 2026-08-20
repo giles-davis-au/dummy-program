@@ -12,20 +12,25 @@ correct for this being synthetic data generated in one sitting.
 
 ## Repository layout
 
-The durable wiki and its generated state live under `wiki/` — that directory is the
-Obsidian vault, and nothing else. Everything else (`CLAUDE.md`, `README.md`, `bin/`,
-`tests/`, `synthetic-dataset-reading-guide.md`) stays at the repo root, outside the
-vault, since it's operating machinery or exercise documentation, not knowledge content.
+The durable wiki and its generated state live under `wiki/` — that directory holds
+only the second-brain's knowledge content: durable pages, generated state, and the
+source evidence they cite. Everything else (`CLAUDE.md`, `README.md`, `bin/`,
+`tests/`, `synthetic-dataset-reading-guide.md`) stays at the repo root, since it's
+operating machinery or exercise documentation, not knowledge content. The split is
+about keeping content and tooling independent, not about any one viewer — `wiki/`
+only uses plain CommonMark links and plain YAML/JSON, no vendor-specific syntax, so
+it happens to also work as an Obsidian vault, a plain file browser, or anything else
+that reads Markdown. Don't add anything tool-specific (e.g. `[[wikilinks]]`, an
+`.obsidian/` config, dataview queries) to keep it that way.
 
-Two path conventions follow from that split — don't mix them up:
+Two path conventions follow from the content/tooling split — don't mix them up:
 
 - **Paths in this file, in `README.md`, and printed by `bin/` scripts** are relative
   to the repo root, so they're written with the `wiki/` prefix (e.g. `wiki/log.md`).
-- **Paths inside the vault itself** — frontmatter `sources:` citations, and the
-  markdown links between pages — are relative to `wiki/` (the vault root), with no
-  `wiki/` prefix, so they resolve correctly whether opened in Obsidian or read
-  straight off disk. `sources/slack/2026-07-15.md` in a page's frontmatter means
-  `wiki/sources/slack/2026-07-15.md` on disk.
+- **Paths inside `wiki/` itself** — frontmatter `sources:` citations, and the
+  markdown links between pages — are relative to `wiki/`, with no `wiki/` prefix, so
+  they resolve correctly no matter what reads them. `sources/slack/2026-07-15.md` in
+  a page's frontmatter means `wiki/sources/slack/2026-07-15.md` on disk.
 
 ## Owner, purpose, audience, privacy boundary
 

@@ -9,8 +9,12 @@ full operating contract.
 
 ## Layout
 
-`wiki/` is the Obsidian vault — the knowledge system and nothing else. Everything
-else at the repo root is operating machinery or exercise documentation.
+`wiki/` holds only the knowledge system — nothing implementation- or test-related.
+Everything else at the repo root is operating machinery or exercise documentation.
+The split is tool-independent by design: `wiki/` uses plain CommonMark links and
+plain YAML/JSON only, no vendor-specific syntax, so it can be opened as an Obsidian
+vault, browsed as plain files, or read by any other Markdown-aware tool without
+modification.
 
 ```
 CLAUDE.md              operating contract (Claude Code loads this automatically)
@@ -19,7 +23,7 @@ bin/                    regenerate-state, retrieve, lint-wiki
 tests/                  acceptance-checklist.md
 synthetic-dataset-reading-guide.md   dataset addendum (test-harness doc, not wiki content)
 
-wiki/                                the Obsidian vault
+wiki/                                the knowledge system
   index.md               catalog of durable pages
   log.md                 append-only refresh/ingest history + as-of cursor
   current-state.md/.json generated snapshot — do not hand-edit
@@ -29,8 +33,8 @@ wiki/                                the Obsidian vault
 ```
 
 Paths inside `wiki/` content (frontmatter citations, page-to-page links) are relative
-to `wiki/` itself, so the vault stays portable regardless of where the repo lives on
-disk or what it's opened as in Obsidian.
+to `wiki/` itself, so it stays portable regardless of where the repo lives on disk or
+what tool opens it.
 
 ## Commands
 
