@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+"""Structural lint for the FlexPay AU wiki: broken links, orphan pages, malformed
+frontmatter, empty pages, and staleness relative to the log.md as-of cursor.
+Exits non-zero on hard errors (broken links/citations, missing required frontmatter,
+orphans). Staleness is a warning only.
+"""
+import os
+import sys
+from datetime import date
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _wikilib as W  # noqa: E402
+
+REQUIRED_KEYS = ["type", "id", "status", "updated"]
+STALE_DAYS = 30
+
+
+def check_link_targets(errors, warnings):
+    for path in W.durable_pages():
+        meta, body = W.parse_page(path)
+        for link in W.extract_links(body):
+            if link.startswith(("http://", "https://", "#")):
+                continue
+            target = link.split("#")[0]
+            resolved = os.path.normpath(os.path.join(os.path.dirname(path), target))
+            if not os.path.exists(resolved):
+                errors.append(f"{W.rel(path)}: broken link -> {link}")
+        for src in meta.get("sources", []):
+            target = src.split("#")[0]
+            resolved = os.path.normpath(os.path.join(W.ROOT, target))
+            if not os.path.exists(resolved):
+                errors.append(f"{W.rel(path)}: citation points to missing file -> {src}")
+
+
+def check_frontmatter(errors, warnings):
+    for path in W.durable_pages():
+        meta, body = W.parse_page(path)
+        if not meta:
+            errors.append(f"{W.rel(path)}: missing or malformed frontmatter")
+            continue
+        for key in REQUIRED_KEYS:
+            if not meta.get(key):
+                errors.append(f"{W.rel(path)}: missing required frontmatter key '{key}'")
+        if len(body.strip()) < 40:
+            errors.append(f"{W.rel(path)}: page body looks empty (<40 chars)")
+
+
+def check_index_and_orphans(errors, warnings):
+    index_path = os.path.join(W.ROOT, "index.md")
+    if not os.path.exists(index_path):
+        errors.append("index.md is missing")
+        return
+    with open(index_path, encoding="utf-8") as f:
+        index_text = f.read()
+    for path in W.durable_pages():
+        relpath = W.rel(path)
+        if relpath not in index_text:
+            errors.append(f"{relpath}: orphan page, not referenced from index.md")
+
+
+def check_staleness(errors, warnings):
+    asof = W.latest_asof()
+    if not asof:
+        return
+    asof_date = date.fromisoformat(asof)
+    for path in W.durable_pages():
+        meta, _ = W.parse_page(path)
+        updated = meta.get("updated")
+        if not updated:
+            continue
+        try:
+            updated_date = date.fromisoformat(updated)
+        except ValueError:
+            errors.append(f"{W.rel(path)}: 'updated' is not a valid ISO date: {updated}")
+            continue
+        if updated_date > asof_date:
+            errors.append(f"{W.rel(path)}: 'updated' ({updated}) is after the log.md "
+                           f"as-of cursor ({asof}) — page claims knowledge from the future")
+        elif (asof_date - updated_date).days > STALE_DAYS:
+            warnings.append(f"{W.rel(path)}: stale — last updated {updated}, "
+                             f"{(asof_date - updated_date).days} days before as-of {asof}")
+
+
+def main():
+    errors, warnings = [], []
+    check_frontmatter(errors, warnings)
+    check_link_targets(errors, warnings)
+    check_index_and_orphans(errors, warnings)
+    check_staleness(errors, warnings)
+
+    for w in warnings:
+        print(f"WARN  {w}")
+    for e in errors:
+        print(f"ERROR {e}")
+
+    n_pages = len(list(W.durable_pages()))
+    print(f"\nChecked {n_pages} durable pages: {len(errors)} error(s), {len(warnings)} warning(s).")
+    sys.exit(1 if errors else 0)
+
+
+if __name__ == "__main__":
+    main()

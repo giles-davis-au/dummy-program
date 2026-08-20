@@ -1,0 +1,132 @@
+{
+  "generated": "2026-08-20T05:16:23Z",
+  "asof_cursor": "2026-07-15",
+  "pages": [
+    {
+      "path": "projects/flexpay-au.md",
+      "type": "project",
+      "id": "flexpay-au",
+      "status": "active",
+      "updated": "2026-07-15",
+      "sources": [
+        "sources/slack/2026-07-15.md#giles-2026-07-08",
+        "sources/gdrive/2026-07-15.md#meeting-2026-07-10",
+        "sources/notion/2026-07-15.md#tracker-structural-2026-07-15"
+      ],
+      "title": "FlexPay AU",
+      "summary": "Programme kicked off 2026-07-08, targeting national GA 16 Nov 2026; all three workstreams are underway, no milestones confirmed complete yet."
+    },
+    {
+      "path": "people/ben-okafor.md",
+      "type": "person",
+      "id": "ben-okafor",
+      "status": "active",
+      "updated": "2026-07-08",
+      "sources": [
+        "sources/slack/2026-07-15.md#giles-2026-07-08"
+      ],
+      "title": "Ben Okafor",
+      "summary": "CS Ops; named at kickoff as an Ops & Launch Readiness owner \u2014 no individual activity recorded yet as of this refresh."
+    },
+    {
+      "path": "people/dan-foster.md",
+      "type": "person",
+      "id": "dan-foster",
+      "status": "active",
+      "updated": "2026-07-10",
+      "sources": [
+        "sources/slack/2026-07-15.md#dan-2026-07-09",
+        "sources/gdrive/2026-07-15.md#meeting-2026-07-10"
+      ],
+      "title": "Dan Foster",
+      "summary": "Engineering; owns the credit engine build (M02) and the API contract (M01); co-decided D1 at kickoff."
+    },
+    {
+      "path": "people/giles-davis.md",
+      "type": "person",
+      "id": "giles-davis",
+      "status": "active",
+      "updated": "2026-07-15",
+      "sources": [
+        "sources/slack/2026-07-15.md#giles-2026-07-08",
+        "sources/gdrive/2026-07-15.md#meeting-2026-07-10"
+      ],
+      "title": "Giles Davis",
+      "summary": "Programme Management, FlexPay AU sponsor; kicked off the programme 2026-07-08 and runs the weekly sync."
+    },
+    {
+      "path": "people/grace-lindqvist.md",
+      "type": "person",
+      "id": "grace-lindqvist",
+      "status": "active",
+      "updated": "2026-07-08",
+      "sources": [
+        "sources/slack/2026-07-15.md#giles-2026-07-08"
+      ],
+      "title": "Grace Lindqvist",
+      "summary": "GTM; named at kickoff as an Ops & Launch Readiness owner \u2014 no individual activity recorded yet as of this refresh."
+    },
+    {
+      "path": "people/isla-novak.md",
+      "type": "person",
+      "id": "isla-novak",
+      "status": "active",
+      "updated": "2026-07-15",
+      "sources": [
+        "sources/slack/2026-07-15.md#isla-2026-07-15",
+        "sources/gdrive/2026-07-15.md#raid-a2-2026-07-15"
+      ],
+      "title": "Isla Novak",
+      "summary": "Finance; started modelling balance-sheet capital allocation for BNPL lending exposure on 2026-07-15."
+    },
+    {
+      "path": "people/maya-chen.md",
+      "type": "person",
+      "id": "maya-chen",
+      "status": "active",
+      "updated": "2026-07-09",
+      "sources": [
+        "sources/slack/2026-07-15.md#maya-2026-07-09"
+      ],
+      "title": "Maya Chen",
+      "summary": "Product; owns the Merchant Console beta (M04), scoping doc up as of 2026-07-09."
+    },
+    {
+      "path": "people/owen-mackay.md",
+      "type": "person",
+      "id": "owen-mackay",
+      "status": "active",
+      "updated": "2026-07-14",
+      "sources": [
+        "sources/slack/2026-07-15.md#owen-2026-07-14"
+      ],
+      "title": "Owen Mackay",
+      "summary": "Compliance; kicked off the AML/CTF risk assessment (M03), targeting sign-off by 25 Sept 2026."
+    },
+    {
+      "path": "people/priya-shah.md",
+      "type": "person",
+      "id": "priya-shah",
+      "status": "active",
+      "updated": "2026-07-11",
+      "sources": [
+        "sources/slack/2026-07-15.md#priya-2026-07-11"
+      ],
+      "title": "Priya Shah",
+      "summary": "Legal; drafting the PDS (M07), currently blocked on the credit model approach being locked in."
+    },
+    {
+      "path": "decisions/d1-ml-credit-engine.md",
+      "type": "decision",
+      "id": "d1-ml-credit-engine",
+      "status": "current",
+      "updated": "2026-07-10",
+      "sources": [
+        "sources/gdrive/2026-07-15.md#meeting-2026-07-10",
+        "sources/gdrive/2026-07-15.md#raid-d1-2026-07-10"
+      ],
+      "title": "D1 \u2014 Build the credit decision engine as a fully automated, real-time ML model",
+      "summary": "current as of this refresh (2026-07-15) \u2014 decided at kickoff; not yet superseded within this refresh's evidence window."
+    }
+  ]
+}

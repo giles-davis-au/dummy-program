@@ -1,0 +1,94 @@
+#!/usr/bin/env python3
+"""Rebuild current-state.md, current-state.json, and entity-index.json from the
+durable pages (projects/, people/, decisions/) and log.md. Deterministic and
+reproducible — never hand-edit the three generated files this produces.
+"""
+import json
+import os
+import sys
+from datetime import datetime, timezone
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _wikilib as W  # noqa: E402
+
+
+def collect():
+    pages = []
+    for path in W.durable_pages():
+        meta, body = W.parse_page(path)
+        pages.append({
+            "path": W.rel(path),
+            "type": meta.get("type", "unknown"),
+            "id": meta.get("id", os.path.splitext(os.path.basename(path))[0]),
+            "status": meta.get("status", ""),
+            "updated": meta.get("updated", ""),
+            "sources": meta.get("sources", []),
+            "title": W.extract_title(body) or meta.get("id", ""),
+            "summary": W.extract_summary(body) or "",
+        })
+    return pages
+
+
+def build_entity_index(pages):
+    index = {}
+    for p in pages:
+        aliases = {p["id"], p["title"]}
+        for alias in aliases:
+            if alias:
+                index[alias] = p["path"]
+    return index
+
+
+def render_current_state_md(pages, asof):
+    lines = []
+    lines.append("# Current State — FlexPay AU")
+    lines.append("")
+    lines.append(f"_Generated {datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')}"
+                  f" from durable pages + log.md. As-of cursor: {asof or 'none yet'}._")
+    lines.append("")
+    lines.append("Do not hand-edit this file — run `bin/regenerate-state` instead.")
+    lines.append("")
+
+    for section, type_ in (("Projects", "project"), ("Decisions", "decision"), ("People", "person")):
+        rows = [p for p in pages if p["type"] == type_]
+        lines.append(f"## {section}")
+        lines.append("")
+        if not rows:
+            lines.append("_None yet._")
+        for p in sorted(rows, key=lambda r: r["id"]):
+            summary = p["summary"] or "_no summary line found_"
+            lines.append(f"- **{p['title']}** (`{p['path']}`, status: {p['status']}, "
+                          f"updated: {p['updated']}) — {summary}")
+        lines.append("")
+
+    return "\n".join(lines) + "\n"
+
+
+def main():
+    asof = W.latest_asof()
+    pages = collect()
+    entity_index = build_entity_index(pages)
+
+    state_json = {
+        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "asof_cursor": asof,
+        "pages": pages,
+    }
+
+    with open(os.path.join(W.ROOT, "current-state.json"), "w", encoding="utf-8") as f:
+        json.dump(state_json, f, indent=2)
+        f.write("\n")
+
+    with open(os.path.join(W.ROOT, "current-state.md"), "w", encoding="utf-8") as f:
+        f.write(render_current_state_md(pages, asof))
+
+    with open(os.path.join(W.ROOT, "entity-index.json"), "w", encoding="utf-8") as f:
+        json.dump(entity_index, f, indent=2, sort_keys=True)
+        f.write("\n")
+
+    print(f"Regenerated current-state.md, current-state.json, entity-index.json "
+          f"({len(pages)} durable pages, as-of {asof}).")
+
+
+if __name__ == "__main__":
+    main()

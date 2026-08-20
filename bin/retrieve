@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+"""Local text search over the durable wiki: matches entity-index.json aliases first,
+then falls back to a case-insensitive substring search over page bodies. No vector
+database, no external service — plain file search, per the blueprint's guidance that
+this is sufficient at this scale.
+"""
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _wikilib as W  # noqa: E402
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("usage: bin/retrieve <query>")
+        sys.exit(2)
+    query = " ".join(sys.argv[1:]).lower()
+
+    entity_path = os.path.join(W.ROOT, "entity-index.json")
+    matched_paths = set()
+    if os.path.exists(entity_path):
+        with open(entity_path, encoding="utf-8") as f:
+            entity_index = json.load(f)
+        for alias, path in entity_index.items():
+            if query in alias.lower():
+                matched_paths.add(path)
+                print(f"[entity: {alias}] {path}")
+
+    for path in W.durable_pages():
+        relpath = W.rel(path)
+        if relpath in matched_paths:
+            continue
+        _, body = W.parse_page(path)
+        lower = body.lower()
+        if query in lower:
+            idx = lower.find(query)
+            snippet = body[max(0, idx - 40):idx + 60].replace("\n", " ")
+            print(f"[text match] {relpath}: ...{snippet}...")
+
+
+if __name__ == "__main__":
+    main()
