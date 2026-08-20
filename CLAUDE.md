@@ -63,9 +63,18 @@ Only three lanes exist for this programme. Do not query or report on any other l
 (no Gmail, Calendar, Granola, Linear, Jira, Glean — they're not "unavailable", they're
 simply not part of this exercise):
 
-- **Slack** — 8 channels: `flexpay-programme` (doubles as all-hands), `flexpay-product`,
-  `flexpay-eng`, `flexpay-legal`, `flexpay-compliance`, `flexpay-finance`,
-  `flexpay-csops`, `flexpay-gtm`. Ignore any other channel in the workspace.
+- **Slack** — workspace `gbd-dummy-program.slack.com`. 8 channels (channel IDs below
+  so a refresh doesn't need to re-list channels each time):
+  - `flexpay-programme` (doubles as all-hands) — `C0BRF7YRF98`
+  - `flexpay-product` — `C0BRBEYG5NZ`
+  - `flexpay-eng` — `C0BRH6WPSQZ`
+  - `flexpay-legal` — `C0BR91NM3FD`
+  - `flexpay-compliance` — `C0BRF81U0P4`
+  - `flexpay-finance` — `C0BRBEW05KP`
+  - `flexpay-csops` — `C0BRH78PDED`
+  - `flexpay-gtm` — `C0BR91ZDD1R`
+
+  Ignore any other channel in the workspace.
 - **Notion** — the "FlexPay Program Tracker" database (fetch the data source directly,
   not a configured view) and the sibling "FlexPay AU — Programme Overview" page.
 - **Google Drive** — the one Doc ("FlexPay AU — Weekly Programme Meeting Notes") and
@@ -79,9 +88,10 @@ found inside them.
 ### Slack authorship convention (read this before touching Slack)
 
 Every message in this workspace is posted by one bot account ("Claude MCP"). Slack's
-own `ts` field and the bot's identity are **not** the author or the time — they only
-reflect when this dataset was generated (2026-08-20). The real author and in-story
-timestamp are embedded in the message body itself:
+own `ts` field and the bot's identity are **not** the author or the time — as
+*evidence for a claim*, they only reflect when this dataset was generated
+(2026-08-20), not the in-story moment. The real author and in-story timestamp are
+embedded in the message body itself:
 
 ```
 **{Name} ({Function})** _{YYYY-MM-DD HH:MM}_
@@ -91,6 +101,16 @@ timestamp are embedded in the message body itself:
 Always cite the bolded name as author and the italicized timestamp as the event date.
 Some embedded dates are later than the dataset's real generation date — that's
 intentional; the fictional timeline runs to GA on 2026-11-16.
+
+**`ts` is still needed, just for a different job.** Don't use it for authorship or
+the event date (see above) — but do record it, together with the channel ID, so a
+citation can link straight to the live message. A Slack permalink is
+`https://gbd-dummy-program.slack.com/archives/{channel_id}/p{ts with the decimal
+point removed}` — e.g. Giles's kickoff message (`ts 1787198853.102289`, channel
+`C0BRF7YRF98`) is `https://gbd-dummy-program.slack.com/archives/C0BRF7YRF98/p1787198853102289`.
+When capturing a Slack source, record this permalink next to the quoted text, and
+include it when citing that fact in an answer — don't make the owner go find the
+message themselves.
 
 People roster: Giles Davis (Programme Management, sponsor), Maya Chen (Product), Dan
 Foster (Engineering), Priya Shah (Legal), Owen Mackay (Compliance), Isla Novak
@@ -117,6 +137,24 @@ history. Handle this explicitly:
 
 The Google Doc and Sheet have no such quirk — both are dated correctly and can be used
 directly, subject to the message/entry-level cut rule below.
+
+### Live-link citations
+
+The owner should be able to click straight from a fact to its origin, not just to a
+local capture file — that's the whole point of this being low-friction to audit.
+Record a live link for every lane, next to the quoted text, at capture time:
+
+- **Slack:** the permalink formula above.
+- **Notion:** the data source query already returns a real page URL per row (and
+  `notion-fetch` returns one per page) — record it.
+- **Google Drive:** record the Doc/Sheet's `viewUrl`. That links to the document, not
+  a specific row or paragraph — Sheets row-level fragments (`#range=A5`) aren't
+  reliable enough to promise (they break if rows are reordered), so cite the document
+  plus a plain-text pointer to the row/section (e.g. "RAID Log, Decisions table, row
+  D1") rather than a fabricated deep-link.
+
+When answering a question in chat, include the live link along with the fact, not
+just the internal `wiki/sources/...` citation.
 
 ## Page structure and citation rules
 
