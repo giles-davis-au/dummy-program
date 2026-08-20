@@ -24,38 +24,37 @@ def check_link_targets(errors, warnings):
             target = link.split("#")[0]
             resolved = os.path.normpath(os.path.join(os.path.dirname(path), target))
             if not os.path.exists(resolved):
-                errors.append(f"{W.rel(path)}: broken link -> {link}")
+                errors.append(f"{W.repo_rel(path)}: broken link -> {link}")
         for src in meta.get("sources", []):
             target = src.split("#")[0]
-            resolved = os.path.normpath(os.path.join(W.ROOT, target))
+            resolved = os.path.normpath(os.path.join(W.WIKI_ROOT, target))
             if not os.path.exists(resolved):
-                errors.append(f"{W.rel(path)}: citation points to missing file -> {src}")
+                errors.append(f"{W.repo_rel(path)}: citation points to missing file -> {src}")
 
 
 def check_frontmatter(errors, warnings):
     for path in W.durable_pages():
         meta, body = W.parse_page(path)
         if not meta:
-            errors.append(f"{W.rel(path)}: missing or malformed frontmatter")
+            errors.append(f"{W.repo_rel(path)}: missing or malformed frontmatter")
             continue
         for key in REQUIRED_KEYS:
             if not meta.get(key):
-                errors.append(f"{W.rel(path)}: missing required frontmatter key '{key}'")
+                errors.append(f"{W.repo_rel(path)}: missing required frontmatter key '{key}'")
         if len(body.strip()) < 40:
-            errors.append(f"{W.rel(path)}: page body looks empty (<40 chars)")
+            errors.append(f"{W.repo_rel(path)}: page body looks empty (<40 chars)")
 
 
 def check_index_and_orphans(errors, warnings):
-    index_path = os.path.join(W.ROOT, "index.md")
+    index_path = os.path.join(W.WIKI_ROOT, "index.md")
     if not os.path.exists(index_path):
-        errors.append("index.md is missing")
+        errors.append("wiki/index.md is missing")
         return
     with open(index_path, encoding="utf-8") as f:
         index_text = f.read()
     for path in W.durable_pages():
-        relpath = W.rel(path)
-        if relpath not in index_text:
-            errors.append(f"{relpath}: orphan page, not referenced from index.md")
+        if W.vault_rel(path) not in index_text:
+            errors.append(f"{W.repo_rel(path)}: orphan page, not referenced from index.md")
 
 
 def check_staleness(errors, warnings):
@@ -71,13 +70,13 @@ def check_staleness(errors, warnings):
         try:
             updated_date = date.fromisoformat(updated)
         except ValueError:
-            errors.append(f"{W.rel(path)}: 'updated' is not a valid ISO date: {updated}")
+            errors.append(f"{W.repo_rel(path)}: 'updated' is not a valid ISO date: {updated}")
             continue
         if updated_date > asof_date:
-            errors.append(f"{W.rel(path)}: 'updated' ({updated}) is after the log.md "
+            errors.append(f"{W.repo_rel(path)}: 'updated' ({updated}) is after the log.md "
                            f"as-of cursor ({asof}) — page claims knowledge from the future")
         elif (asof_date - updated_date).days > STALE_DAYS:
-            warnings.append(f"{W.rel(path)}: stale — last updated {updated}, "
+            warnings.append(f"{W.repo_rel(path)}: stale — last updated {updated}, "
                              f"{(asof_date - updated_date).days} days before as-of {asof}")
 
 

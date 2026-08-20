@@ -17,7 +17,7 @@ def collect():
     for path in W.durable_pages():
         meta, body = W.parse_page(path)
         pages.append({
-            "path": W.rel(path),
+            "path": W.vault_rel(path),
             "type": meta.get("type", "unknown"),
             "id": meta.get("id", os.path.splitext(os.path.basename(path))[0]),
             "status": meta.get("status", ""),
@@ -75,14 +75,14 @@ def main():
         "pages": pages,
     }
 
-    with open(os.path.join(W.ROOT, "current-state.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(W.WIKI_ROOT, "current-state.json"), "w", encoding="utf-8") as f:
         json.dump(state_json, f, indent=2)
         f.write("\n")
 
-    with open(os.path.join(W.ROOT, "current-state.md"), "w", encoding="utf-8") as f:
+    with open(os.path.join(W.WIKI_ROOT, "current-state.md"), "w", encoding="utf-8") as f:
         f.write(render_current_state_md(pages, asof))
 
-    with open(os.path.join(W.ROOT, "entity-index.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(W.WIKI_ROOT, "entity-index.json"), "w", encoding="utf-8") as f:
         json.dump(entity_index, f, indent=2, sort_keys=True)
         f.write("\n")
 

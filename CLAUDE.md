@@ -10,6 +10,23 @@ is silent, defer to the blueprint. Where the two conflict on a dataset-specific 
 (authorship, Notion schema, source scope), the addendum wins — it exists precisely to
 correct for this being synthetic data generated in one sitting.
 
+## Repository layout
+
+The durable wiki and its generated state live under `wiki/` — that directory is the
+Obsidian vault, and nothing else. Everything else (`CLAUDE.md`, `README.md`, `bin/`,
+`tests/`, `synthetic-dataset-reading-guide.md`) stays at the repo root, outside the
+vault, since it's operating machinery or exercise documentation, not knowledge content.
+
+Two path conventions follow from that split — don't mix them up:
+
+- **Paths in this file, in `README.md`, and printed by `bin/` scripts** are relative
+  to the repo root, so they're written with the `wiki/` prefix (e.g. `wiki/log.md`).
+- **Paths inside the vault itself** — frontmatter `sources:` citations, and the
+  markdown links between pages — are relative to `wiki/` (the vault root), with no
+  `wiki/` prefix, so they resolve correctly whether opened in Obsidian or read
+  straight off disk. `sources/slack/2026-07-15.md` in a page's frontmatter means
+  `wiki/sources/slack/2026-07-15.md` on disk.
+
 ## Owner, purpose, audience, privacy boundary
 
 - **Owner:** Giles Davis.
@@ -17,16 +34,16 @@ correct for this being synthetic data generated in one sitting.
   programme, for practicing the Karpathy LLM-wiki / second-brain pattern.
 - **Audience:** the owner, and any Claude Code session opened in this directory.
 - **Privacy boundary:** none needed — nothing in this dataset is real. Still keep
-  `sources/` structurally separate from the durable pages (see below), for fidelity to
-  the pattern, not because anything here is actually sensitive.
+  `wiki/sources/` structurally separate from the durable pages (see below), for
+  fidelity to the pattern, not because anything here is actually sensitive.
 - **Hosting mode:** local only. No GitHub, no remote, no scheduling, no unattended
   automation. Local git history only, for recoverability.
 
 ## What the agent may edit
 
-- **May write:** `sources/**`, `projects/**`, `people/**`, `decisions/**`, `index.md`,
-  `log.md` (append-only), `current-state.md`, `current-state.json`,
-  `entity-index.json`.
+- **May write:** `wiki/sources/**`, `wiki/projects/**`, `wiki/people/**`,
+  `wiki/decisions/**`, `wiki/index.md`, `wiki/log.md` (append-only),
+  `wiki/current-state.md`, `wiki/current-state.json`, `wiki/entity-index.json`.
 - **May never write:** anything outside this repo; anything matching the excluded set
   below; `synthetic-dataset-reading-guide.md` (it's instructions, not wiki content).
 - **Never edit `sources/**` after creation.** If a source turns out to be wrong or
@@ -98,8 +115,8 @@ directly, subject to the message/entry-level cut rule below.
 
 ## Page structure and citation rules
 
-Durable pages live in `projects/`, `people/`, `decisions/`. Every page has YAML
-frontmatter:
+Durable pages live in `wiki/projects/`, `wiki/people/`, `wiki/decisions/`. Every page
+has YAML frontmatter (paths inside it are vault-relative — see "Repository layout"):
 
 ```yaml
 ---
@@ -130,32 +147,33 @@ refresh          (no date → advance to the next natural cutoff found in source
 
 On each refresh:
 
-1. **Ground first.** Read this file, `index.md`, the tail of `log.md`, and
-   `current-state.md` before touching any live source.
-2. **Guard the cursor.** Read the most recent as-of date in `log.md`. If the requested
-   date is earlier than that cursor, **do not run the refresh** — stop and report the
-   conflict back to the owner instead. Refreshes only move forward (re-running the same
-   date is fine, and should be a no-op if nothing changed).
+1. **Ground first.** Read this file, `wiki/index.md`, the tail of `wiki/log.md`, and
+   `wiki/current-state.md` before touching any live source.
+2. **Guard the cursor.** Read the most recent as-of date in `wiki/log.md`. If the
+   requested date is earlier than that cursor, **do not run the refresh** — stop and
+   report the conflict back to the owner instead. Refreshes only move forward
+   (re-running the same date is fine, and should be a no-op if nothing changed).
 3. **Capture.** Pull evidence from all three lanes, filtered to the window since the
    last successful cursor up to (and including) the new as-of date. Cut Slack threads
    at the individual message's embedded timestamp, not the thread boundary — a message
    dated after the cursor is excluded even if earlier messages in the same thread are
    in scope. Write one immutable capture file per lane per refresh under
-   `sources/{slack,notion,gdrive}/YYYY-MM-DD.md` (the as-of date), recording: window
-   queried, what was found, and lane coverage (`complete` / `partial` / `unavailable` /
-   `no material activity` — these are different claims, keep them distinct).
+   `wiki/sources/{slack,notion,gdrive}/YYYY-MM-DD.md` (the as-of date), recording:
+   window queried, what was found, and lane coverage (`complete` / `partial` /
+   `unavailable` / `no material activity` — these are different claims, keep them
+   distinct).
 4. **Integrate.** For each material signal, update every durable page it touches
    (a single meeting can touch a project, several people, and a decision). Add
    citations. Don't create ephemeral task-list duplicates of the Notion tracker — that
    stays the system of record for task-level detail; the wiki holds durable status,
    decisions, risks, and rationale.
 5. **Resolve contradictions** — see below. Never "newest wins" by default.
-6. **Regenerate state.** Run `bin/regenerate-state` to rebuild `current-state.md`,
-   `current-state.json`, and `entity-index.json` from the durable pages + log. Never
-   hand-edit these three files.
+6. **Regenerate state.** Run `bin/regenerate-state` to rebuild `wiki/current-state.md`,
+   `wiki/current-state.json`, and `wiki/entity-index.json` from the durable pages +
+   log. Never hand-edit these three files.
 7. **Lint.** Run `bin/lint-wiki`. Fix or explicitly note any failures before declaring
    the refresh done.
-8. **Log.** Append one entry to `log.md`: as-of date, coverage per lane, pages
+8. **Log.** Append one entry to `wiki/log.md`: as-of date, coverage per lane, pages
    touched, contradictions and their resolution, judgment items left for the owner.
 9. **Commit.** `git commit` the changed files with a message naming the as-of date.
    No push, no branch, no PR — this is local-only.
@@ -187,19 +205,20 @@ role, artifact type (explicit decision > current-state record > working draft >
 informal aside), independent corroboration, and who structurally owns the truth. Three
 outcomes only: **new wins** (update + dated note on what changed), **wiki wins**
 (leave intact, mark new source stale/out-of-scope), or **genuine conflict** (don't
-guess — log both claims as a judgment item in `log.md`, make no disputed edit).
+guess — log both claims as a judgment item in `wiki/log.md`, make no disputed edit).
 
 ## Required checks before a refresh is "done"
 
 - `bin/lint-wiki` passes (or failures are explicitly noted, not silently ignored).
 - Every durable claim has a citation or a stated confidence limit.
-- `index.md` lists every durable page; no orphans.
+- `wiki/index.md` lists every durable page; no orphans.
 - Coverage is reported per lane, per the four-state distinction above.
-- `current-state.md` / `.json` / `entity-index.json` were regenerated, not hand-edited.
-- `log.md` has a new entry; the as-of cursor only moved forward.
+- `wiki/current-state.md` / `.json` / `entity-index.json` were regenerated, not
+  hand-edited.
+- `wiki/log.md` has a new entry; the as-of cursor only moved forward.
 
 ## Query workflow
 
-For a normal chat question: read `current-state.md` first (compact snapshot), then use
-`bin/retrieve <query>` or direct file reads to pull only the durable pages actually
-relevant to the question. Don't load the whole wiki into context by default.
+For a normal chat question: read `wiki/current-state.md` first (compact snapshot),
+then use `bin/retrieve <query>` or direct file reads to pull only the durable pages
+actually relevant to the question. Don't load the whole wiki into context by default.

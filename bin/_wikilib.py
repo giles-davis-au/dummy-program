@@ -4,6 +4,7 @@ import re
 import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+WIKI_ROOT = os.path.join(ROOT, "wiki")
 DURABLE_DIRS = ["projects", "people", "decisions"]
 
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n?(.*)$", re.DOTALL)
@@ -11,14 +12,24 @@ LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 LOG_ASOF_RE = re.compile(r"^##\s*Refresh\s*[—-]\s*as-of\s+(\d{4}-\d{2}-\d{2})", re.MULTILINE)
 
 
-def rel(path):
+def vault_rel(path):
+    """Path relative to wiki/ (the Obsidian vault root) — used for anything written
+    into vault content itself (current-state.*, entity-index.json), so it stays
+    correct regardless of where the repo lives on disk."""
+    return os.path.relpath(path, WIKI_ROOT)
+
+
+def repo_rel(path):
+    """Path relative to the repo root — used for diagnostics printed at the terminal
+    (lint-wiki, retrieve), since those are read from the repo root, not from inside
+    the vault."""
     return os.path.relpath(path, ROOT)
 
 
 def durable_pages():
     """Yield absolute paths to every .md file under the durable page directories."""
     for d in DURABLE_DIRS:
-        dpath = os.path.join(ROOT, d)
+        dpath = os.path.join(WIKI_ROOT, d)
         if not os.path.isdir(dpath):
             continue
         for name in sorted(os.listdir(dpath)):
@@ -82,7 +93,7 @@ def extract_summary(body):
 
 
 def log_path():
-    return os.path.join(ROOT, "log.md")
+    return os.path.join(WIKI_ROOT, "log.md")
 
 
 def latest_asof():

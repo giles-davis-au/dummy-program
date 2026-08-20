@@ -31,5 +31,5 @@ under `projects/`, `people/`, `decisions/` is listed here (orphan check).
 ## Other
 
 - [log.md](log.md) — append-only refresh history and as-of cursor.
-- [CLAUDE.md](CLAUDE.md) — operating contract.
-- [README.md](README.md) — commands and troubleshooting.
+- [CLAUDE.md](../CLAUDE.md) — operating contract (lives at the repo root, not in the vault).
+- [README.md](../README.md) — commands and troubleshooting (repo root).
