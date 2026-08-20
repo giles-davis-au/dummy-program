@@ -10,6 +10,13 @@ is silent, defer to the blueprint. Where the two conflict on a dataset-specific 
 (authorship, Notion schema, source scope), the addendum wins — it exists precisely to
 correct for this being synthetic data generated in one sitting.
 
+Ongoing operational corrections and refinements the owner makes to this process live
+in [addendums/](addendums/) (repo root) — one markdown file per topic, maintained by
+the owner directly, not part of a refresh's normal write scope (see "What the agent
+may edit" below). Check for files there before a refresh; where an addendum
+conflicts with this file, the addendum wins — it reflects a correction made after
+this file was last edited.
+
 ## Repository layout
 
 The durable wiki and its generated state live under `wiki/` — that directory holds
@@ -50,7 +57,9 @@ Two path conventions follow from the content/tooling split — don't mix them up
   `wiki/decisions/**`, `wiki/index.md`, `wiki/log.md` (append-only),
   `wiki/current-state.md`, `wiki/current-state.json`, `wiki/entity-index.json`.
 - **May never write:** anything outside this repo; anything matching the excluded set
-  below; `synthetic-dataset-reading-guide.md` (it's instructions, not wiki content).
+  below; `synthetic-dataset-reading-guide.md` or `addendums/**` (they're
+  instructions, not wiki content — `addendums/` is the owner's own maintenance
+  space).
 - **Never edit `sources/**` after creation.** If a source turns out to be wrong or
   stale, say so in the wiki or in a new dated source file — don't rewrite history.
 - **Never touch, open, or search for a ground-truth / answer-key / test-design file
@@ -175,6 +184,13 @@ Record a live link for every lane, next to the quoted text, at capture time:
 
 When answering a question in chat, include the live link along with the fact, not
 just the internal `wiki/sources/...` citation.
+
+This also applies to a refresh's live-enumeration listing itself, not just to quoted
+facts drawn from a source afterward: when Notion/Drive enumeration finds a set of
+children/files, list each as a hyperlink to its own page URL / viewUrl in the
+capture file — never as a bare ID in backticks with no link. An ID alone isn't
+click-through-able; the owner shouldn't have to hand-construct a URL from a raw
+file/page ID to audit what a refresh found.
 
 ## Page structure and citation rules
 
