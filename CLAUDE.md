@@ -4,18 +4,8 @@ This file is the canonical instruction set for this repository. Claude Code load
 automatically. Read it before any ingest, refresh, query, or lint action.
 
 Built from [an AI second-brain blueprint](ai-second-brain-blueprint.md)
-(local-only, Version 0/1 minimum viable build) plus the dataset-specific addendum in
-[synthetic-dataset-reading-guide.md](synthetic-dataset-reading-guide.md). Where this file
-is silent, defer to the blueprint. Where the two conflict on a dataset-specific point
-(authorship, Notion schema, source scope), the addendum wins — it exists precisely to
-correct for this being synthetic data generated in one sitting.
-
-Ongoing operational corrections and refinements the owner makes to this process live
-in [addendums/](addendums/) (repo root) — one markdown file per topic, maintained by
-the owner directly, not part of a refresh's normal write scope (see "What the agent
-may edit" below). Check for files there before a refresh; where an addendum
-conflicts with this file, the addendum wins — it reflects a correction made after
-this file was last edited.
+(local-only, Version 0/1 minimum viable build). Where this file is silent, defer to
+the blueprint.
 
 ## Repository layout
 
@@ -30,14 +20,21 @@ it happens to also work as an Obsidian vault, a plain file browser, or anything 
 that reads Markdown. Don't add anything tool-specific (e.g. `[[wikilinks]]`, an
 `.obsidian/` config, dataview queries) to keep it that way.
 
-Two path conventions follow from the content/tooling split — don't mix them up:
+Three path conventions follow from the content/tooling split — don't mix them up:
 
 - **Paths in this file, in `README.md`, and printed by `bin/` scripts** are relative
   to the repo root, so they're written with the `wiki/` prefix (e.g. `wiki/log.md`).
-- **Paths inside `wiki/` itself** — frontmatter `sources:` citations, and the
-  markdown links between pages — are relative to `wiki/`, with no `wiki/` prefix, so
-  they resolve correctly no matter what reads them. `sources/slack/2026-07-15.md` in
-  a page's frontmatter means `wiki/sources/slack/2026-07-15.md` on disk.
+- **Frontmatter `sources:` citations inside `wiki/` pages** are relative to `wiki/`
+  itself, with no `wiki/` prefix, so they resolve correctly no matter what reads
+  them. `sources/slack/2026-07-15.md` in a page's frontmatter means
+  `wiki/sources/slack/2026-07-15.md` on disk.
+- **Markdown links between pages inside `wiki/`** (body text, not frontmatter) are
+  standard relative-to-the-current-file links, same as any other Markdown file —
+  e.g. a link from `wiki/decisions/d1.md` to `wiki/people/dan-foster.md` is written
+  `../people/dan-foster.md`, not `people/dan-foster.md`. This is a different
+  resolution rule from the frontmatter one above (`bin/lint-wiki`'s
+  `check_link_targets` resolves each one differently) — don't apply the
+  frontmatter convention to body links.
 
 ## Owner, purpose, audience, privacy boundary
 
@@ -57,9 +54,7 @@ Two path conventions follow from the content/tooling split — don't mix them up
   `wiki/decisions/**`, `wiki/index.md`, `wiki/log.md` (append-only),
   `wiki/current-state.md`, `wiki/current-state.json`, `wiki/entity-index.json`.
 - **May never write:** anything outside this repo; anything matching the excluded set
-  below; `synthetic-dataset-reading-guide.md` or `addendums/**` (they're
-  instructions, not wiki content — `addendums/` is the owner's own maintenance
-  space).
+  below; `synthetic-dataset-reading-guide.md` (it's instructions, not wiki content).
 - **Never edit `sources/**` after creation.** If a source turns out to be wrong or
   stale, say so in the wiki or in a new dated source file — don't rewrite history.
 - **Never touch, open, or search for a ground-truth / answer-key / test-design file
@@ -192,6 +187,19 @@ capture file — never as a bare ID in backticks with no link. An ID alone isn't
 click-through-able; the owner shouldn't have to hand-construct a URL from a raw
 file/page ID to audit what a refresh found.
 
+When a capture file contains multiple dated entries that other pages will cite by
+anchor (one Slack channel's history, one Notion database's rows, one Drive doc's
+meeting sections), each entry's anchor must be its own Markdown heading —
+`### the-anchor-id` — never a separate `<a id="anchor-id"></a>` tag next to a
+differently-worded heading. Put the human-readable label as a bold line immediately
+below the heading, not in the heading text itself. Raw `<a id>` anchors only scroll
+to target in tools that render markdown to a real, independently navigable web page
+(e.g. GitHub's web view); Obsidian and VS Code instead resolve link fragments
+against a heading's own auto-slugified text, so a separate anchor tag silently
+fails to navigate in both. Use lowercase kebab-case for anchor ids (e.g.
+`slack-programme-20260708-0900`) — that form survives essentially any
+heading-slugification algorithm unchanged, so it stays stable across renderers.
+
 ## Page structure and citation rules
 
 Durable pages live in `wiki/projects/`, `wiki/people/`, `wiki/decisions/`. Every page
@@ -311,6 +319,34 @@ informal aside), independent corroboration, and who structurally owns the truth.
 outcomes only: **new wins** (update + dated note on what changed), **wiki wins**
 (leave intact, mark new source stale/out-of-scope), or **genuine conflict** (don't
 guess — log both claims as a judgment item in `wiki/log.md`, make no disputed edit).
+
+## Self-review habits
+
+- **Audit against a rule's full intent, not just its literal wording.** When a rule
+  states an implicit scope (e.g. "record a live link... next to the quoted text"),
+  after applying it to the immediate case, take one more pass asking whether the
+  rule's evident purpose covers anything else the current file/page also contains,
+  even where the literal wording doesn't name it explicitly. Applies to any rule
+  with an implicit scope — citation completeness, frontmatter requirements,
+  contradiction handling, staleness checks.
+- **Flag unverified claims about external tool or connector behavior as
+  unverified, not as settled fact.** Claude Code cannot observe how a specific
+  third-party app (Obsidian, VS Code, a browser, a connector's own UI) actually
+  renders or navigates something — that can only be established by testing it
+  directly or having the owner confirm it. When a design choice depends on such
+  behavior and it hasn't been directly observed, say so explicitly, and propose a
+  small, reversible test before rolling it out broadly. This doesn't apply to
+  anything verifiable in-repo (does a file exist, does a script exit 0, does lint
+  pass) — check those directly instead of hedging.
+- **Track deferred items and proactively re-check them — don't let "flagged"
+  quietly become "forgotten."** Correctly deferring something (logging a genuine
+  contradiction as a judgment item, holding off an edit pending the owner's
+  go-ahead) is not the same as resolving it. Before declaring a refresh or a
+  response "done," scan for outstanding flagged items from earlier in the same
+  session or from `wiki/log.md`'s open judgment items, and check whether anything
+  just discovered or just permitted resolves one of them. If so, close the loop
+  explicitly rather than leaving it to the owner to notice the connection
+  themselves.
 
 ## Required checks before a refresh is "done"
 
