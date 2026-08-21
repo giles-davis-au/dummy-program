@@ -117,10 +117,19 @@ and citation.
 
 ## Assumptions
 
+From the [RAID log](https://docs.google.com/spreadsheets/d/11gmeOS49ECmWJGkD1XIJZDExR5iPgzhllL0Op0fdeVU/edit)
+(Assumptions table). **Neither is independently corroborated** — no Slack message
+anywhere in the capture states either assumption's specific claim. Isla Novak did
+post on A2's exact raised date, 2026-07-15, but that message only says she's
+starting to model capital allocation — it doesn't assert that existing licensing
+is sufficient without new regulatory approval, so it doesn't corroborate A2's
+actual claim. Date/owner match alone isn't corroboration; the content has to
+actually state the thing being claimed.
+
 | ID | Assumption | Linked risk | Owner | Raised |
 |---|---|---|---|---|
-| A1 | In-house credit engine supports national volumes without redesign | R1 | Dan Foster | 2026-08-01 |
-| A2 | Existing balance-sheet lending authority is sufficient without new regulatory approval | R4 | Isla Novak | 2026-07-15 |
+| A1 | In-house credit engine supports national volumes without redesign | R1 | Dan Foster | 2026-08-01 — single-source, RAID log only |
+| A2 | Existing balance-sheet lending authority is sufficient without new regulatory approval | R4 | Isla Novak | 2026-07-15 — single-source, RAID log only |
 
 ## Issues
 
