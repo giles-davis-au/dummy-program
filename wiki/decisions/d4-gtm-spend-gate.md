@@ -14,9 +14,9 @@ sources:
 # D4 — GTM spend gated on Sydney pilot success
 
 **Decision:** GTM spend beyond initial asset production will not be committed until
-the Sydney pilot ([D3](d3-sydney-pilot.md), milestone M08) meets its success
-criteria. Grace Lindqvist's team continues lightweight campaign concepting until
-then.
+the Sydney pilot ([D3](d3-sydney-pilot.md)) meets its success criteria — tracked as
+[milestone M08](../projects/flexpay-au.md#milestones). Grace Lindqvist's team
+continues lightweight campaign concepting until then.
 
 **Decided by:** Giles Davis, Grace Lindqvist.
 

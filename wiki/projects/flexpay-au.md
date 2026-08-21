@@ -54,20 +54,20 @@ started" where dated evidence showed work already underway.
 
 | ID | Milestone | Owner | Due | Notion status | Corroborated status |
 |---|---|---|---|---|---|
-| M01 | Merchant Console API contract finalized | Dan Foster | 2026-08-05 | Done | **Done** — confirmed by Dan Foster 2026-08-05 |
-| M02 | In-house credit decision engine integration complete | Dan Foster | 2026-09-12 | In progress | **In progress**, ~40% as of 2026-08-14 |
-| M03 | AML/CTF risk assessment sign-off (AUSTRAC) | Owen Mackay | 2026-09-25 | In progress | **In progress**, at risk of slipping — see risk R2 |
-| M04 | Merchant onboarding portal (Console) beta | Maya Chen | 2026-09-18 | In progress | **In progress** — beta build started 2026-08-11, feedback round done 2026-08-19 (risk R3) |
-| M05 | PCI-DSS / security penetration test complete | Dan Foster | 2026-09-30 | Not started | **Not started/unconfirmed** — no corroborating Slack or notes activity found |
-| M06 † | Customer support playbook & training complete | Ben Okafor | 2026-10-10 | Not started | **In progress** — first draft of playbook structure up 2026-08-10; Ben syncing with Maya on support docs 2026-08-19 |
-| M07 † | PDS approved by Legal | Priya Shah | 2026-10-02 | Not started | **In progress, completion confirmed** — outside counsel review clean, sign-off confirmed for **4 October** (2 days after the tracker's due date) per Priya's 2026-10-01 post; not yet complete as of this refresh's cutoff |
-| M08 | Pilot merchant cohort live (10 merchants, Sydney) | Ben Okafor | 2026-10-20 | Not started | **Not started** — consistent with evidence, due date is after this refresh's cutoff |
-| M09 † | GTM campaign assets finalized | Grace Lindqvist | 2026-10-28 | Not started | **In progress** — concepting underway since 2026-07-22, asset production kicked off 2026-08-19 |
-| M10 | General Availability — national launch | Giles Davis | 2026-11-16 | Not started | **Not started** — consistent with evidence |
+| M01 | Merchant Console API contract finalized | Dan Foster | 2026-08-05 | Done | **Done** — confirmed by Dan Foster, [Slack 2026-08-05](https://gbd-dummy-program.slack.com/archives/C0BRF7YRF98/p1787198855085669) ([Notion](https://app.notion.com/p/3c261566afbf8142be59dd998a055e72)) |
+| M02 | In-house credit decision engine integration complete | Dan Foster | 2026-09-12 | In progress | **In progress**, ~40% as of [Slack 2026-08-14](https://gbd-dummy-program.slack.com/archives/C0BRH6WPSQZ/p1787198875998609) ([Notion](https://app.notion.com/p/3c261566afbf8153b9b3c40e88e31551)) |
+| M03 | AML/CTF risk assessment sign-off (AUSTRAC) | Owen Mackay | 2026-09-25 | In progress | **In progress**, at risk of slipping per [Slack 2026-08-18](https://gbd-dummy-program.slack.com/archives/C0BRF81U0P4/p1787199165863869) — see risk R2 ([Notion](https://app.notion.com/p/3c261566afbf813ca51cd9b0a789a877)) |
+| M04 | Merchant onboarding portal (Console) beta | Maya Chen | 2026-09-18 | In progress | **In progress** — beta build started [Slack 2026-08-11](https://gbd-dummy-program.slack.com/archives/C0BRBEYG5NZ/p1787199149312689), feedback round done [Slack 2026-08-19](https://gbd-dummy-program.slack.com/archives/C0BRBEYG5NZ/p1787199151279559) (risk R3) ([Notion](https://app.notion.com/p/3c261566afbf8113b563dfed016a781a)) |
+| M05 | PCI-DSS / security penetration test complete | Dan Foster | 2026-09-30 | Not started | **Not started/unconfirmed** — no corroborating Slack or notes activity found ([Notion](https://app.notion.com/p/3c261566afbf81508d06c69c8b266359)) |
+| M06 † | Customer support playbook & training complete | Ben Okafor | 2026-10-10 | Not started | **In progress** — first draft of playbook structure up [Slack 2026-08-10](https://gbd-dummy-program.slack.com/archives/C0BRH78PDED/p1787199179284279); Ben syncing with Maya on support docs [Slack 2026-08-19](https://gbd-dummy-program.slack.com/archives/C0BRH78PDED/p1787199181173359) ([Notion](https://app.notion.com/p/3c261566afbf81f58037dc4dc8e19b66)) |
+| M07 † | PDS approved by Legal | Priya Shah | 2026-10-02 | Not started | **In progress, completion confirmed** — outside counsel review clean, sign-off confirmed for **4 October** (2 days after the tracker's due date) per Priya's [Slack 2026-10-01](https://gbd-dummy-program.slack.com/archives/C0BR91NM3FD/p1787199156672889) post; not yet complete as of this refresh's cutoff ([Notion](https://app.notion.com/p/3c261566afbf8168be76e8ab9412d416)) |
+| M08 | Pilot merchant cohort live (10 merchants, Sydney) | Ben Okafor | 2026-10-20 | Not started | **Not started** — consistent with evidence, due date is after this refresh's cutoff ([Notion](https://app.notion.com/p/3c261566afbf8102b07ae244247a618a)) |
+| M09 † | GTM campaign assets finalized | Grace Lindqvist | 2026-10-28 | Not started | **In progress** — concepting underway since [Slack 2026-07-22](https://gbd-dummy-program.slack.com/archives/C0BR91ZDD1R/p1787199183064139), asset production kicked off [Slack 2026-08-19](https://gbd-dummy-program.slack.com/archives/C0BR91ZDD1R/p1787199187111339) ([Notion](https://app.notion.com/p/3c261566afbf81949e28f6c0136c9e86)) |
+| M10 | General Availability — national launch | Giles Davis | 2026-11-16 | Not started | **Not started** — consistent with evidence ([Notion](https://app.notion.com/p/3c261566afbf81b09275e5acfe9d267a)) |
 
-Sources: [sources/notion/2026-10-01.md](../sources/notion/2026-10-01.md) (all
-milestone rows), corroborating Slack posts cited on each person's page (see the
-"Team" section below, or [index.md](../index.md)'s People list).
+Every fact above is now cited inline (Slack for corroboration, Notion for the raw
+tracker row) — no separate lookup needed. See the "Team" section below, or
+[index.md](../index.md)'s People list, for each person's fuller timeline.
 
 ## Decisions
 

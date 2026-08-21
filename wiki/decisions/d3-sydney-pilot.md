@@ -25,7 +25,8 @@ Corroborated by the meeting notes doc, the RAID log's Decisions table, and Giles
 same-day Slack post in #flexpay-programme.
 
 This decision is the basis for milestone **M08 — Pilot merchant cohort live (10
-merchants, Sydney)**, due 2026-10-20 — see [flexpay-au.md](../projects/flexpay-au.md).
+merchants, Sydney)**, due 2026-10-20 — see the
+[Milestones table](../projects/flexpay-au.md#milestones).
 
 Sources:
 [sources/gdrive/2026-10-01.md#gdoc-20260814-sync](../sources/gdrive/2026-10-01.md#gdoc-20260814-sync),
