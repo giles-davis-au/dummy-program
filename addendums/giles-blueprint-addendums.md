@@ -179,6 +179,60 @@ After (clickable, ID kept for reference):
 files' "Live enumeration result" sections). Rule added to CLAUDE.md's "Live-link
 citations" section the same day.
 
+### Follow-up: a "real hyperlink" isn't real until it's verified to resolve
+
+Fixing the *completeness* gap above (every entity gets a link) surfaced a deeper
+one: some of those links were 404s. The owner queried the wiki about milestone M07
+and got a Notion citation, `https://app.notion.com/3c261566afbf8168be76e8ab9412d416`,
+that didn't resolve — copy-linking the same page directly from Notion's own UI gave
+`https://app.notion.com/p/M07-...-3c261566afbf8168be76e8ab9412d416?source=copy_link`
+instead.
+
+**Root cause:** two different Notion MCP tools return a `url`-labeled field for the
+same page, and they disagree. `notion-fetch` returns
+`https://app.notion.com/p/{id}` (confirmed correct — resolves with a plain HTTP
+`200`). `notion-query-data-sources` (used to pull the milestone tracker's rows)
+returns a bare `https://app.notion.com/{id}`, missing the required `/p/` path
+segment — confirmed to `404`. All 10 milestone-row citations in this build came
+from the query tool, so all 10 had the same defect, not just M07.
+
+**Important distinction from [§3](#3-anchor-navigation-heading-as-slug-not-a-id-tags):**
+that section is about how a *markdown viewer* (Obsidian, VS Code) navigates links
+*internal to the wiki* — the URL was never wrong, only the in-app scrolling
+behavior varied by tool. This is a different failure entirely: the recorded URL
+string itself is malformed and doesn't resolve *anywhere, in any client* — not a
+viewer-behavior question at all, just a data-correctness bug from trusting a
+tool's field name ("url") without checking the value.
+
+**Rule going forward (extends the rule above, doesn't replace it):** a URL-shaped
+field returned by a connector is not automatically a working link. Before recording
+it as a citation:
+- **Cross-check** — if more than one tool call returns a URL-labeled field for the
+  same object, and they disagree, that disagreement is itself the signal something
+  is wrong; don't pick one arbitrarily.
+- **Verify resolution directly** where practical (an HTTP request, a fetch) — cheap,
+  connector-agnostic, and decisive when the target doesn't require auth to view.
+- **Where verification is inconclusive** (e.g. an auth-walled platform redirects
+  every request, valid URL or not, to the same login page) fall back to asking the
+  human to confirm one representative link, rather than guessing.
+- **Do this once, at first integration of a source lane** — not on every refresh.
+  Once a connector's confirmed-working URL template is known (e.g. Notion:
+  `https://app.notion.com/p/{id}`), record that template in the schema file itself,
+  the same way Slack's permalink formula is already spelled out explicitly. This
+  generalizes beyond Notion: adding a new source platform in a future build (Asana,
+  Trello, Jira, ...) shouldn't require the owner to pre-supply the correct URL
+  format from memory — Claude can and should discover and verify it the same way,
+  using the same two generic techniques, then write the confirmed format down so
+  it's never re-derived (and potentially gotten wrong again) later.
+
+**Status:** incorporated into this repo's `CLAUDE.md`, "Live-link citations"
+section, 2026-10-01 (Notion bullet corrected; new paragraph on connector URL
+verification added).
+
+**Log:** all 10 malformed milestone-row URLs in
+[wiki/sources/notion/2026-10-01.md](../wiki/sources/notion/2026-10-01.md) corrected
+2026-10-01, each verified via direct HTTP resolution (`200`) before being written.
+
 ---
 
 ## 3. Anchor Navigation: Heading-as-Slug, Not `<a id>` Tags
@@ -405,3 +459,11 @@ section, 2026-10-01 (third bullet).
   same time). §7 added, surfaced from noticing §4 itself sat flagged-but-unactioned
   across several turns even after permission to edit CLAUDE.md was already
   established.
+- **2026-10-01 (follow-up 2)** — New subsection added under §2, after the owner
+  caught a Notion citation link (M07) that 404'd. Root cause: two Notion MCP tools
+  return disagreeing `url` fields for the same page, and the wrong one was trusted
+  for all 10 milestone-row citations. Distinguished explicitly from §3 (that's
+  about viewer navigation behavior for links internal to the wiki; this is about
+  external URL correctness, unrelated to which app reads the wiki). All 10 URLs in
+  `wiki/sources/notion/2026-10-01.md` corrected and HTTP-verified. CLAUDE.md's
+  Notion bullet and a new connector-URL-verification paragraph added the same day.

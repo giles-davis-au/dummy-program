@@ -169,13 +169,25 @@ local capture file — that's the whole point of this being low-friction to audi
 Record a live link for every lane, next to the quoted text, at capture time:
 
 - **Slack:** the permalink formula above.
-- **Notion:** the data source query already returns a real page URL per row (and
-  `notion-fetch` returns one per page) — record it.
+- **Notion:** use `notion-fetch`'s `url` field (`https://app.notion.com/p/{id}`) —
+  confirmed to resolve. **Do not** use `notion-query-data-sources`' own `url` field
+  for the same row: it returns a bare `https://app.notion.com/{id}` with no `/p/`
+  path segment, which 404s. If a row's `notion-fetch`'d URL isn't already on hand,
+  prepend `/p/` to the bare ID rather than using the query result's URL as-is.
 - **Google Drive:** record the Doc/Sheet's `viewUrl`. That links to the document, not
   a specific row or paragraph — Sheets row-level fragments (`#range=A5`) aren't
   reliable enough to promise (they break if rows are reordered), so cite the document
   plus a plain-text pointer to the row/section (e.g. "RAID Log, Decisions table, row
   D1") rather than a fabricated deep-link.
+
+Before trusting any URL-shaped field a connector returns, verify it actually
+resolves — a field named "url" isn't proof it's correct, and different tool calls
+against the same connector can disagree (as above, where two different Notion
+tools returned two different URLs for the same page). Verify once, the first time
+a source lane is integrated — cross-check multiple returned URL fields for the
+same object, and/or test resolution directly — and record the confirmed-working
+format here so it's never re-derived, and potentially gotten wrong again, on a
+later refresh.
 
 When answering a question in chat, include the live link along with the fact, not
 just the internal `wiki/sources/...` citation.
