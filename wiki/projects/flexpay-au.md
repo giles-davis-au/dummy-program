@@ -5,7 +5,19 @@ status: active — RAG Amber
 updated: 2026-10-01
 sources:
   - sources/slack/2026-10-01.md#slack-programme-20260708-0900
+  - sources/slack/2026-10-01.md#slack-gtm-20260722-1000
+  - sources/slack/2026-10-01.md#slack-programme-20260805-1641
+  - sources/slack/2026-10-01.md#slack-finance-20260806-1015
+  - sources/slack/2026-10-01.md#slack-csops-20260810-1400
+  - sources/slack/2026-10-01.md#slack-product-20260811-0918
+  - sources/slack/2026-10-01.md#slack-eng-20260814-1705
+  - sources/slack/2026-10-01.md#slack-compliance-20260815-0950
   - sources/slack/2026-10-01.md#slack-programme-20260815-1005
+  - sources/slack/2026-10-01.md#slack-compliance-20260818-1120
+  - sources/slack/2026-10-01.md#slack-gtm-20260819-1115
+  - sources/slack/2026-10-01.md#slack-product-20260819-1510
+  - sources/slack/2026-10-01.md#slack-csops-20260819-1600
+  - sources/slack/2026-10-01.md#slack-legal-20261001-0947
   - sources/notion/2026-10-01.md#notion-overview
   - sources/notion/2026-10-01.md#notion-m01
   - sources/notion/2026-10-01.md#notion-m02
@@ -81,15 +93,19 @@ tracker row) — no separate lookup needed. See the "Team" section below, or
 
 ## Risks
 
-From the RAID log, all corroborated by dated Slack posts from the owning function
-(see each person's page for the matching post):
+From the [RAID log](https://docs.google.com/spreadsheets/d/11gmeOS49ECmWJGkD1XIJZDExR5iPgzhllL0Op0fdeVU/edit)
+(Risks table). Three of the four are independently corroborated by a dated Slack
+post from the owning function on the same raised date — **R1 is not**: no Slack
+message matching its 2026-08-01 raised date was found anywhere in the capture, so
+it's RAID-log-only, single-source (this page previously claimed all four were
+corroborated — that was wrong for R1, corrected here):
 
 | ID | Risk | Severity | Owner | Raised |
 |---|---|---|---|---|
-| R1 | Credit decision engine not yet load-tested at projected national volumes — risk of checkout latency/timeouts at GA | High | Dan Foster | 2026-08-01 |
-| R2 | New AUSTRAC transaction-monitoring rules (Jul 2026) may require AML/CTF rework, threatening M03 | High | Owen Mackay | 2026-08-15 |
-| R3 | Console beta onboarding UX friction (document upload step) — risk to merchant adoption | Medium | Maya Chen | 2026-08-19 |
-| R4 | Balance-sheet capital allocation for BNPL lending exposure not yet finalized — could cap pilot cohort or delay GA | Medium-High | Isla Novak | 2026-08-06 |
+| R1 | Credit decision engine not yet load-tested at projected national volumes — risk of checkout latency/timeouts at GA | High | Dan Foster | 2026-08-01 — single-source, RAID log only |
+| R2 | New AUSTRAC transaction-monitoring rules (Jul 2026) may require AML/CTF rework, threatening M03 | High | Owen Mackay | [Slack 2026-08-15](https://gbd-dummy-program.slack.com/archives/C0BRF81U0P4/p1787199164078059) |
+| R3 | Console beta onboarding UX friction (document upload step) — risk to merchant adoption | Medium | Maya Chen | [Slack 2026-08-19](https://gbd-dummy-program.slack.com/archives/C0BRBEYG5NZ/p1787199151279559) |
+| R4 | Balance-sheet capital allocation for BNPL lending exposure not yet finalized — could cap pilot cohort or delay GA | Medium-High | Isla Novak | [Slack 2026-08-06](https://gbd-dummy-program.slack.com/archives/C0BRBEW05KP/p1787199169766649) |
 
 **R1 — additional informal context (not a status change):** Dan Foster ran an
 informal load test on 2026-08-19 and saw response-time degradation above ~200
