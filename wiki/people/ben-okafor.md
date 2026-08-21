@@ -8,6 +8,7 @@ sources:
   - sources/slack/2026-10-01.md#slack-csops-20260810-1400
   - sources/slack/2026-10-01.md#slack-csops-20260819-1600
   - sources/slack/2026-10-01.md#slack-programme-20260814-1130
+  - sources/notion/2026-10-01.md#notion-m06
 ---
 
 # Ben Okafor
@@ -29,7 +30,7 @@ sources:
 ## Notes
 
 Owns milestones **M06** (support playbook & training) and **M08** (pilot merchant
-cohort live) on the tracker. Notion shows M06 as "Not started," but Ben's own
+cohort live) on the tracker. Notion shows M06 as "Not started", but Ben's own
 2026-08-10 and 2026-08-19 posts show drafting and active cross-team work already
 underway — see [flexpay-au.md](../projects/flexpay-au.md) for the corroborated
 status.

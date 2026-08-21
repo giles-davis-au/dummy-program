@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-21T03:25:20Z",
+  "generated": "2026-08-21T04:02:18Z",
   "asof_cursor": "2026-10-01",
   "pages": [
     {
@@ -50,7 +50,8 @@
         "sources/slack/2026-10-01.md#slack-csops-20260720-0930",
         "sources/slack/2026-10-01.md#slack-csops-20260810-1400",
         "sources/slack/2026-10-01.md#slack-csops-20260819-1600",
-        "sources/slack/2026-10-01.md#slack-programme-20260814-1130"
+        "sources/slack/2026-10-01.md#slack-programme-20260814-1130",
+        "sources/notion/2026-10-01.md#notion-m06"
       ],
       "title": "Ben Okafor",
       "summary": ""
@@ -98,7 +99,8 @@
       "sources": [
         "sources/slack/2026-10-01.md#slack-gtm-20260722-1000",
         "sources/slack/2026-10-01.md#slack-gtm-20260818-1620",
-        "sources/slack/2026-10-01.md#slack-gtm-20260819-1115"
+        "sources/slack/2026-10-01.md#slack-gtm-20260819-1115",
+        "sources/notion/2026-10-01.md#notion-m09"
       ],
       "title": "Grace Lindqvist",
       "summary": ""

@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 """Structural lint for the FlexPay AU wiki: broken links, orphan pages, malformed
 frontmatter, empty pages, and staleness relative to the log.md as-of cursor.
+Also two heuristic content checks, warnings only: quoted text that isn't a
+verbatim match anywhere in the page's cited sources, and citations to Slack
+messages containing relative-date language ("Monday", "next week", ...) that a
+date claim nearby might have wrongly resolved to the message's own post date.
+Neither of these can prove a claim is *wrong* -- they flag places worth a human
+or a session re-checking, the same way staleness does.
 Exits non-zero on hard errors (broken links/citations, missing required frontmatter,
-orphans). Staleness is a warning only.
+orphans). Staleness and the two content checks are warnings only.
 """
 import os
+import re
 import sys
 from datetime import date
 
@@ -16,6 +23,20 @@ TYPE_REQUIRED_KEYS = {
     "decision": ["decided"],
 }
 STALE_DAYS = 30
+
+# Quotes shorter than this are usually structural (a status value, a section
+# name) rather than a claimed verbatim statement -- checking them adds noise
+# without catching much. 15 chars is roughly "Not started" territory, tuned
+# down from a length that would exclude the misquote that motivated this check.
+MIN_QUOTE_LEN = 12
+QUOTE_RE = re.compile(r'"([^"\n]{%d,})"' % MIN_QUOTE_LEN)
+
+RELATIVE_DATE_WORDS = [
+    "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",
+    "tomorrow", "yesterday",
+    "next week", "this week", "last week",
+    "next month", "this month", "last month",
+]
 
 
 def check_link_targets(errors, warnings):
@@ -92,12 +113,64 @@ def check_staleness(errors, warnings):
                              f"{(asof_date - updated_date).days} days before as-of {asof}")
 
 
+def check_quote_verbatim(errors, warnings):
+    # Catches a fabricated/inaccurate direct quote (e.g. quoting "today" in a
+    # message that never said it) -- but only for text actually presented in
+    # quote marks. A paraphrase that overclaims without quoting (e.g. "since"
+    # implying a start date the source never states) has no string to match
+    # against and isn't something this check -- or any mechanical check -- can
+    # catch; that needs a human/session re-read, not a lint rule.
+    for path in W.durable_pages():
+        meta, body = W.parse_page(path)
+        sources = meta.get("sources", [])
+        if not sources:
+            continue
+        blocks = [W.read_source_anchor_block(src) for src in sources]
+        combined = "\n".join(b for b in blocks if b)
+        if not combined:
+            continue
+        for quote in QUOTE_RE.findall(body):
+            if quote not in combined:
+                warnings.append(
+                    f'{W.repo_rel(path)}: quoted text not found verbatim in any '
+                    f'cited source -> "{quote}"'
+                )
+
+
+def check_relative_date_language(errors, warnings):
+    # Coarse and heuristic on purpose: this cannot know whether a nearby date
+    # claim actually mishandled the relative reference (that's the M04 bug --
+    # a message posted Tuesday saying "starts Monday", with the claim wrongly
+    # anchored to the post date instead of the following Monday). It just
+    # flags "this cited message uses relative-date language, double-check
+    # anything dated from it" -- a prompt to re-derive, not a verdict.
+    for path in W.durable_pages():
+        meta, _ = W.parse_page(path)
+        for src in meta.get("sources", []):
+            if "/slack/" not in src:
+                continue
+            block = W.read_source_anchor_block(src)
+            if not block:
+                continue
+            lower = block.lower()
+            hits = sorted({w for w in RELATIVE_DATE_WORDS if w in lower})
+            if hits:
+                warnings.append(
+                    f"{W.repo_rel(path)}: cites {src}, which contains relative-date "
+                    f"language ({', '.join(hits)}) — verify any nearby date claim "
+                    f"resolves it correctly rather than reusing the message's own "
+                    f"post date"
+                )
+
+
 def main():
     errors, warnings = [], []
     check_frontmatter(errors, warnings)
     check_link_targets(errors, warnings)
     check_index_and_orphans(errors, warnings)
     check_staleness(errors, warnings)
+    check_quote_verbatim(errors, warnings)
+    check_relative_date_language(errors, warnings)
 
     for w in warnings:
         print(f"WARN  {w}")

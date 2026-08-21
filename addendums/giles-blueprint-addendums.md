@@ -25,6 +25,7 @@ content is folded in below unchanged in substance.
 7. [Track Deferred Items](#7-track-deferred-items)
 8. [Verification Tooling Needs the Same Intent-vs-Letter Audit as Prose Rules](#8-verification-tooling-needs-the-same-intent-vs-letter-audit-as-prose-rules)
 9. [Verify Aggregate Claims Against Every Instance They Describe](#9-verify-aggregate-claims-against-every-instance-they-describe)
+10. [Mechanical Checks for the Two Sub-Categories of §9 That Are Actually Checkable](#10-mechanical-checks-for-the-two-sub-categories-of-9-that-are-actually-checkable)
 
 ---
 
@@ -587,6 +588,55 @@ day — see `wiki/projects/flexpay-au.md`'s Risks section.
 
 ---
 
+## 10. Mechanical Checks for the Two Sub-Categories of §9 That Are Actually Checkable
+
+*Context: direct follow-on from §9. Auditing every citation by hand against
+§9's discipline caught real bugs (see §9's log) but also proved unreliable on
+its own — a manual re-check of "just the citations I touched" missed a second,
+uncorrected instance of the exact same date-conflation bug living on a
+different page (`people/maya-chen.md`), only found once this section's tooling
+existed and ran wiki-wide. Matches [§8](#8-verification-tooling-needs-the-same-intent-vs-letter-audit-as-prose-rules)'s
+own point: tooling beats vigilance because it doesn't get tired on item ten.*
+
+§9 identified three failure sub-categories, not one: fabricated/inaccurate
+direct quotes, relative-date language conflated with absolute dates, and
+paraphrases overclaiming precision the source doesn't support. Only the first
+two are mechanically checkable at all — the third requires understanding what a
+paraphrase *implies* versus what the source *establishes*, which is a judgment
+call no deterministic script can make. `bin/lint-wiki` now has one check for
+each of the first two, both warnings (heuristic, not certain):
+
+- **`check_quote_verbatim`** — extracts quoted text (12+ chars, to filter noise
+  like short structural references) from a durable page's body and confirms it's
+  a literal substring somewhere in that page's cited sources. Catches a
+  fabricated quote with certainty; can't catch an unquoted paraphrase, since
+  there's nothing to string-match.
+- **`check_relative_date_language`** — flags any Slack source a page cites whose
+  content contains relative-date words (day names, "tomorrow," "this/next/last
+  week/month") as worth a second look. Can't verify the nearby claim is *wrong*,
+  only that it's citing something where getting it wrong is easy — genuinely
+  heuristic, expect false positives on messages where the relative language
+  isn't actually load-bearing for any claim drawn from them.
+
+Run against this repo's own wiki, these two checks found: one exact duplicate
+of the already-fixed M04 bug on a second page nobody had thought to re-check;
+one further imprecise paraphrase ("since" implying an unevidenced start date);
+two pages missing a citation for a Notion-status claim they were making; and,
+resolving a false-negative in the first regression test, a *third* instance of
+the D4 misquote living inside a `sources/**` capture file's own analytical
+commentary — see the "Post-build corrections" entry in `wiki/log.md` for the
+full list and how that last one was handled given `sources/**`'s normal
+immutability.
+
+**Status:** both checks added to this repo's `bin/lint-wiki`, 2026-10-01.
+Regression-tested: a directly-injected fabricated quote and a reintroduced
+directory-link-style bug (see §8) both now produce the expected lint failure;
+restoring the file afterward produces a clean diff. No CLAUDE.md change — same
+reasoning as §8, this is tooling closing a gap the existing rule already
+described, not a new prose rule.
+
+---
+
 ## Log
 
 - **2026-10-01** — File created, consolidating `source-addressability-addendum.md`
@@ -619,3 +669,12 @@ day — see `wiki/projects/flexpay-au.md`'s Risks section.
   since it never checked whether a *summary sentence about several claims* held
   for each one. Rule added to CLAUDE.md's "Self-review habits" (fourth bullet);
   the false claim corrected in the same commit as the Risks table citation work.
+- **2026-10-01 (follow-up 5)** — §10 added: built `bin/lint-wiki` checks for the
+  two mechanically-checkable sub-categories of §9 (verbatim quotes, relative-date
+  language). Running them found a second, uncorrected copy of the M04 bug on
+  `people/maya-chen.md`, a similar imprecise paraphrase on the same page, two
+  pages missing a Notion citation, and a third copy of the D4 misquote inside a
+  `sources/**` file's own commentary. All corrected; the `sources/**` edit is a
+  scoped, explicitly-logged exception to normal immutability (see
+  `wiki/log.md`'s "Post-build corrections" entry), authorized for this
+  active-build-phase exercise specifically, not a general practice.

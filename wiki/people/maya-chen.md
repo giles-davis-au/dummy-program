@@ -25,10 +25,12 @@ Foster.
 - **2026-08-04** — Co-decided [D5 — QR wallet launch scope](../decisions/d5-qr-wallet-launch-scope.md)
   with Dan Foster (Apple Pay / Google Pay at launch, NFC deferred). Single-source
   claim — see the decision page.
-- **2026-08-05** — API contract locked in with Engineering; started Console
-  wireframes (milestone M01 — see [flexpay-au.md](../projects/flexpay-au.md)).
+- **2026-08-05** — API contract locked in with Engineering; posted that Console
+  wireframes were starting that week (milestone M01 — see
+  [flexpay-au.md](../projects/flexpay-au.md)).
 - **2026-08-11** — Console beta design handoff to Engineering complete; build
-  started Monday.
+  announced to start the following Monday, 2026-08-17 (not evidenced as having
+  started on the 11th itself).
 - **2026-08-19** — First round of merchant feedback on the Console beta found the
   document upload step confusing, with drop-off there. Logged formally as
   **risk R3** (Medium severity) on the RAID log ahead of the Sydney pilot.

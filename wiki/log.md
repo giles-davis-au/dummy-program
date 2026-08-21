@@ -67,3 +67,43 @@ visibility.
 **Checks:** `bin/lint-wiki` — 0 errors, 0 warnings (14 pages checked). `wiki/index.md`
 lists all 14 durable pages, no orphans. `current-state.md` / `.json` /
 `entity-index.json` regenerated via `bin/regenerate-state`.
+
+## Post-build corrections — 2026-10-01 (not a new refresh, as-of cursor unchanged)
+
+`bin/lint-wiki` gained two new content checks after this refresh (verbatim-quote
+verification; relative-date-language flagging on cited Slack messages — see
+`addendums/giles-blueprint-addendums.md` §8/§9 for why). Running them surfaced
+several accuracy defects that predated the checks. Per the owner's explicit
+direction — this dummy-program is an active exercise for evaluating the wiki
+pattern itself, not a live production audit trail, so the priority here is the
+durable pages reading as if these checks had existed from the start, not
+preserving a warts-and-all history of when each bug was caught — all are
+corrected in place, including one inside a `sources/**` file, which is otherwise
+never edited after creation. That exception is scoped to this build phase and
+logged here explicitly rather than done silently:
+
+- **`decisions/d4-gtm-spend-gate.md`** and **`sources/gdrive/2026-10-01.md`**
+  (its "Discrepancy note") both quoted Grace Lindqvist's 2026-08-18 Slack message
+  as containing the word "today" in quote marks — it doesn't. The date itself
+  (2026-08-18) was and remains correct, established independently by the
+  message's own embedded timestamp; only the fabricated quote fragment is
+  removed. The `sources/**` edit is the one exception noted above.
+- **`projects/flexpay-au.md`** (Milestones table) and **`people/maya-chen.md`**
+  both claimed "beta build started 2026-08-11" — Maya's message, posted Tuesday
+  2026-08-11, says the build "starts Monday" (2026-08-17, six days later); the
+  post date and the announced start date had been conflated. Both reworded to
+  state only what's evidenced.
+- **`people/maya-chen.md`** similarly softened "started Console wireframes"
+  (tied to 2026-08-05) to reflect that the source says "starting... this week,"
+  not that it started that specific day.
+- **`people/ben-okafor.md`** and **`people/grace-lindqvist.md`** each claimed
+  "Notion shows M06/M09 as 'Not started'" without citing the Notion source for
+  that claim on that specific page (the project page had it; these didn't).
+  Added `sources/notion/2026-10-01.md#notion-m06` and `#notion-m09` to their
+  frontmatter respectively.
+
+**Checks after correction:** `bin/lint-wiki` — 0 errors, 11 warnings. All 11
+reviewed individually and confirmed as expected false positives from the two new
+heuristic checks (either quoting CLAUDE.md's own defined vocabulary rather than a
+source, or citing a message with incidental relative-date language that isn't
+actually load-bearing for any nearby claim) — not further action items.

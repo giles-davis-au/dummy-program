@@ -10,6 +10,7 @@ DURABLE_DIRS = ["projects", "people", "decisions"]
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n?(.*)$", re.DOTALL)
 LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 LOG_ASOF_RE = re.compile(r"^##\s*Refresh\s*[—-]\s*as-of\s+(\d{4}-\d{2}-\d{2})", re.MULTILINE)
+SOURCE_HEADING_RE = re.compile(r"^### (\S+)\s*$", re.MULTILINE)
 
 
 def vault_rel(path):
@@ -89,6 +90,29 @@ def extract_summary(body):
                     break
                 parts.append(cont.strip())
             return " ".join(parts)
+    return None
+
+
+def read_source_anchor_block(target):
+    """Given a citation like 'sources/slack/2026-10-01.md#some-anchor', return the
+    text of that anchor's section (from its '### anchor' heading up to the next
+    '### ' heading or end of file). Returns None if the file, the anchor, or the
+    '#anchor' part itself is missing -- callers that need the whole-file text
+    should read the file directly instead."""
+    if "#" not in target:
+        return None
+    file_part, anchor = target.split("#", 1)
+    resolved = os.path.normpath(os.path.join(WIKI_ROOT, file_part))
+    if not os.path.isfile(resolved):
+        return None
+    with open(resolved, encoding="utf-8") as f:
+        text = f.read()
+    headings = list(SOURCE_HEADING_RE.finditer(text))
+    for i, m in enumerate(headings):
+        if m.group(1) == anchor:
+            start = m.end()
+            end = headings[i + 1].start() if i + 1 < len(headings) else len(text)
+            return text[start:end]
     return None
 
 

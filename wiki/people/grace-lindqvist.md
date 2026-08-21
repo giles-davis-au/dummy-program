@@ -7,6 +7,7 @@ sources:
   - sources/slack/2026-10-01.md#slack-gtm-20260722-1000
   - sources/slack/2026-10-01.md#slack-gtm-20260818-1620
   - sources/slack/2026-10-01.md#slack-gtm-20260819-1115
+  - sources/notion/2026-10-01.md#notion-m09
 ---
 
 # Grace Lindqvist
@@ -27,6 +28,6 @@ sources:
 ## Notes
 
 Owns milestone **M09 — GTM campaign assets finalized** on the tracker. Notion shows
-M09 as "Not started," but Grace's own posts show concepting and asset production
+M09 as "Not started", but Grace's own posts show concepting and asset production
 already underway — see [flexpay-au.md](../projects/flexpay-au.md) for the
 corroborated status.
