@@ -26,6 +26,8 @@ content is folded in below unchanged in substance.
 8. [Verification Tooling Needs the Same Intent-vs-Letter Audit as Prose Rules](#8-verification-tooling-needs-the-same-intent-vs-letter-audit-as-prose-rules)
 9. [Verify Aggregate Claims Against Every Instance They Describe](#9-verify-aggregate-claims-against-every-instance-they-describe)
 10. [Mechanical Checks for the Two Sub-Categories of §9 That Are Actually Checkable](#10-mechanical-checks-for-the-two-sub-categories-of-9-that-are-actually-checkable)
+11. [Label Which Lane an Inline Citation Points To](#11-label-which-lane-an-inline-citation-points-to)
+12. [Render Cited URLs as Hyperlinks, Not Plain Text](#12-render-cited-urls-as-hyperlinks-not-plain-text)
 
 ---
 
@@ -637,6 +639,73 @@ described, not a new prose rule.
 
 ---
 
+## 11. Label Which Lane an Inline Citation Points To
+
+*Context: the owner pointed out that a mocked-up table cell — `~40% as of
+[2026-08-14](url)` — didn't make clear the link was a Slack link, only a Notion
+link right next to it was self-labeled. Fixed in the Milestones/Risks tables at
+the time, but never written down as a rule, and never applied retroactively —
+the later Decisions-page audit found `d2-rules-based-credit-model.md` still has
+four inline citations (`([programme](...))`, `([compliance](...))`, etc.) that
+don't say "Slack" anywhere in their visible text, relying entirely on a
+surrounding sentence for context instead of labeling themselves.*
+
+### The gap
+
+CLAUDE.md's Live-link citations section already required a link to exist and to
+resolve (§2), and to be verified against the right connector field (§2's Notion
+follow-up). It never said anything about what the link's *visible text* should
+say. A link that resolves correctly but reads as `[2026-08-14](...)` or
+`([programme](...))` technically satisfies every existing rule while still
+leaving the reader — human or a session reusing the citation later — unable to
+tell what platform they're about to click through to without hovering or
+clicking first. Fixing this once, in one table, when a human happened to notice
+it, doesn't fix it everywhere else the same unlabeled pattern already existed.
+
+### The rule
+
+**A citation's visible link text must make clear which lane it points to** —
+Slack, Notion, or Drive — not just that it's a link at all. Concretely:
+`[Slack 2026-08-14](url)` or `([Notion](url))`, not `[2026-08-14](url)` or
+`([programme](url))`. Applies anywhere a citation is inlined into prose or a
+table cell, in capture files and durable pages alike — not only in whichever
+page happens to be getting rewritten on a given day.
+
+**Status:** incorporated into this repo's `CLAUDE.md`, "Live-link citations"
+section, 2026-10-01. Not yet retroactively applied to `d2-rules-based-credit-model.md`'s
+four unlabeled inline links — flagged, not yet actioned.
+
+---
+
+## 12. Render Cited URLs as Hyperlinks, Not Plain Text
+
+*Context: the owner asked for a URL and got it back as bare text — technically
+correct, functionally useless for "click straight from a fact to its origin,"
+which is CLAUDE.md's own stated reason for the entire Live-link citations
+section existing.*
+
+### The gap
+
+CLAUDE.md said to "include the live link along with the fact" when answering a
+question in chat, but never said the link had to actually *be* a link. A URL
+presented as plain text satisfies "include the live link" in the narrowest
+possible reading while completely missing the point of including it — the
+owner still has to copy-paste it themselves, which is exactly the friction the
+whole section exists to remove.
+
+### The rule
+
+**Any cited URL, in chat or in wiki content, is rendered as an actual markdown
+hyperlink — `[label](url)` — never as bare/plain text.** This is a low bar and
+an easy one to satisfy once stated; the gap was purely that it had never been
+stated, and the narrowest reading of the existing rule technically permitted
+the failure.
+
+**Status:** incorporated into this repo's `CLAUDE.md`, "Live-link citations"
+section, 2026-10-01.
+
+---
+
 ## Log
 
 - **2026-10-01** — File created, consolidating `source-addressability-addendum.md`
@@ -678,3 +747,12 @@ described, not a new prose rule.
   scoped, explicitly-logged exception to normal immutability (see
   `wiki/log.md`'s "Post-build corrections" entry), authorized for this
   active-build-phase exercise specifically, not a general practice.
+- **2026-10-01 (follow-up 6)** — §11 and §12 added, from a full-session review
+  of outstanding threads that hadn't been circled back to. §11: inline citation
+  link text must label which lane it points to (Slack/Notion/Drive) — fixed in
+  the Milestones/Risks tables when first raised, never written down as a rule
+  or applied elsewhere; `d2-rules-based-credit-model.md`'s four unlabeled
+  channel-name links flagged as not yet retroactively fixed. §12: cited URLs
+  must render as actual hyperlinks, never bare text — prompted directly by the
+  owner receiving one as plain text mid-conversation. Both incorporated into
+  CLAUDE.md's "Live-link citations" section the same day.

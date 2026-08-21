@@ -190,7 +190,10 @@ format here so it's never re-derived, and potentially gotten wrong again, on a
 later refresh.
 
 When answering a question in chat, include the live link along with the fact, not
-just the internal `wiki/sources/...` citation.
+just the internal `wiki/sources/...` citation — and render it as an actual
+markdown hyperlink (`[label](url)`), never as bare/plain-text URL the owner has
+to copy out themselves. A URL that isn't a clickable link isn't click-through-able,
+which defeats the whole point stated above.
 
 This also applies to a refresh's live-enumeration listing itself, not just to quoted
 facts drawn from a source afterward: when Notion/Drive enumeration finds a set of
@@ -198,6 +201,15 @@ children/files, list each as a hyperlink to its own page URL / viewUrl in the
 capture file — never as a bare ID in backticks with no link. An ID alone isn't
 click-through-able; the owner shouldn't have to hand-construct a URL from a raw
 file/page ID to audit what a refresh found.
+
+**Label which lane an inline citation points to.** A citation's visible link text
+should make clear whether it goes to Slack, Notion, or Drive — a bare date or a
+bare channel name doesn't tell a reader, or a future session reusing the link,
+what they're about to click through to without hovering or clicking first.
+Use a format like `[Slack 2026-08-14](...)` or `([Notion](...))`, not just
+`[2026-08-14](...)` or `([programme](...))`. Applies wherever a citation is
+inlined into prose or a table cell — capture files and durable pages alike, not
+only whichever one happens to be getting rewritten that day.
 
 When a capture file contains multiple dated entries that other pages will cite by
 anchor (one Slack channel's history, one Notion database's rows, one Drive doc's
