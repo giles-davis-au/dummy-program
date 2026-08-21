@@ -24,6 +24,7 @@ content is folded in below unchanged in substance.
 6. [Flag Unverified Claims About External Tool Behavior](#6-flag-unverified-claims-about-external-tool-behavior)
 7. [Track Deferred Items](#7-track-deferred-items)
 8. [Verification Tooling Needs the Same Intent-vs-Letter Audit as Prose Rules](#8-verification-tooling-needs-the-same-intent-vs-letter-audit-as-prose-rules)
+9. [Verify Aggregate Claims Against Every Instance They Describe](#9-verify-aggregate-claims-against-every-instance-they-describe)
 
 ---
 
@@ -510,6 +511,82 @@ the file with no diff.
 
 ---
 
+## 9. Verify Aggregate Claims Against Every Instance They Describe
+
+*Context: caught while adding inline citations to `flexpay-au.md`'s Risks table
+(an unrelated formatting task). The table's intro sentence claimed "all
+[4 risks] corroborated by dated Slack posts from the owning function." Re-deriving
+each risk's specific evidence for the citation work turned up no Slack message
+anywhere in the capture matching R1's raised date — the claim was false for 1 of 4,
+and had been sitting in the wiki, unnoticed, since the Version 0 build.*
+
+### Why this is fundamental, not a minor accuracy nit
+
+The owner's own framing on discovering this: *"it is fundamental that the wiki can
+be trusted to be correct... as soon as that trust is lost, it ceases to be
+valuable."* A wiki whose summary sentences can't be trusted without independently
+re-deriving the evidence behind them has lost the entire point of being a
+second brain — the owner would have to re-verify everything the wiki tells them
+anyway, which is exactly the manual overhead the pattern exists to eliminate. A
+broken link is annoying; a false claim stated with full confidence is worse,
+because nothing about it *looks* wrong. R1's sentence read identically confident
+whether or not it was true.
+
+### Why this got past every existing check
+
+Traced against the blueprint directly (not from memory):
+
+- **Blueprint's Acceptance checklist**, "every durable claim has a usable
+  citation" — satisfied. R1 *did* have a citation (the RAID log). This checks that
+  a claim has *some* citation, not that a *summary sentence about several claims*
+  is true for every one of them. Citation presence and generalization accuracy are
+  different properties.
+- **Blueprint's Stage 6, contradiction resolution** — not triggered. Nothing about
+  this was a contradiction between sources; it was an omission — a generalization
+  that was never checked against the specific case that broke it.
+- **Blueprint's Stage 7, compile and test** (broken links, orphans, staleness,
+  secrets, formatting, regression tests) — entirely structural. The link that
+  existed was valid; the defect was semantic, in the prose above the table, not in
+  anything a structural check inspects.
+
+Nothing caught it. It surfaced only because an unrelated task happened to require
+re-deriving R1's specific evidence. If that task hadn't touched R1, the false
+claim could have sat there indefinitely — this is distinct from
+[§5](#5-self-audit-against-a-rules-full-literal-scope) (applying someone else's
+stated rule too narrowly in the moment) and from
+[§8](#8-verification-tooling-needs-the-same-intent-vs-letter-audit-as-prose-rules)
+(tooling checking a weaker property than it claims to) — this is a session's own
+generated summary text never being checked against the individual facts it
+purports to summarize.
+
+### The rule
+
+**Before writing any sentence that generalizes across multiple facts — "all N are
+X," "every Y has been Z," "N of M are corroborated" — verify it against each
+individual instance the generalization covers, not just the ones that prompted it
+or come easily to mind.** A generalization drawn from a few clear examples (R2,
+R3, R4 each explicitly said "raising this as a risk") is exactly the shape of
+claim that's easiest to over-extend to a case that doesn't actually fit (R1). The
+fix isn't "add more lint rules" — this class of bug is semantic, not structural,
+and no automated check can verify it without re-deriving the evidence itself.
+It's a discipline: re-derive, don't infer, before asserting a pattern holds
+universally.
+
+### Where this fits in the blueprint
+
+Add to Stage 7 ("compile and test") or the Acceptance checklist directly: *any
+sentence asserting a pattern across multiple durable claims (a count, an "all/every"
+statement, a corroboration-rate claim) must be checked against each instance it
+covers before publication, not inferred from a representative sample.* This is a
+distinct requirement from "every claim has a citation" and should be stated as
+such, not assumed to be covered by it.
+
+**Status:** incorporated into this repo's `CLAUDE.md`, "Self-review habits"
+section, 2026-10-01 (fourth bullet). The false claim itself corrected the same
+day — see `wiki/projects/flexpay-au.md`'s Risks section.
+
+---
+
 ## Log
 
 - **2026-10-01** — File created, consolidating `source-addressability-addendum.md`
@@ -535,3 +612,10 @@ the file with no diff.
   `check_link_targets` tightened from `os.path.exists` to `os.path.isfile` for
   both body links and frontmatter citations. No CLAUDE.md change — this was a
   tooling gap, not a prose-rule gap.
+- **2026-10-01 (follow-up 4)** — §9 added, after discovering `flexpay-au.md`'s
+  Risks table falsely claimed all 4 risks were Slack-corroborated when R1 had no
+  matching Slack message at all. Traced against the blueprint directly: the
+  Acceptance checklist's "every claim has a citation" was satisfied by R1 anyway,
+  since it never checked whether a *summary sentence about several claims* held
+  for each one. Rule added to CLAUDE.md's "Self-review habits" (fourth bullet);
+  the false claim corrected in the same commit as the Risks table citation work.

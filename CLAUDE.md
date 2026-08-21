@@ -359,6 +359,18 @@ guess — log both claims as a judgment item in `wiki/log.md`, make no disputed 
   just discovered or just permitted resolves one of them. If so, close the loop
   explicitly rather than leaving it to the owner to notice the connection
   themselves.
+- **Verify an aggregate or summary claim against every individual instance it
+  describes — not just that each instance separately has some citation.** A
+  durable claim can individually satisfy "has a citation" while a surrounding
+  summary sentence about the whole set ("all N are corroborated," "every risk has
+  been escalated," "all three lanes are complete") is still false for one member.
+  Citation presence and generalization accuracy are different properties, and
+  checking only the former lets the latter go unverified indefinitely — it doesn't
+  get caught by lint, by the contradiction protocol, or by anything else, because
+  nothing else is checking it either. Before writing a sentence that generalizes
+  across several facts, re-derive the evidence for each one it covers, not just
+  the ones that come easily to mind or that prompted the generalization in the
+  first place.
 
 ## Required checks before a refresh is "done"
 
