@@ -24,7 +24,9 @@ continues lightweight campaign concepting until then.
 under the 2026-08-14 weekly sync alongside D3. But the RAID log's Decisions table
 records D4's Date as **2026-08-18**, and two independently dated Slack posts that day
 — Giles's "Also confirmed today" in #flexpay-programme and Grace's "Confirmed with
-Giles ... today" in #flexpay-gtm — both place the actual confirmation on 2026-08-18.
+Giles" in #flexpay-gtm (dated 2026-08-18 per its own embedded timestamp; her message
+doesn't itself use the word "today," unlike Giles's) — both place the actual
+confirmation on 2026-08-18.
 Read together, the most plausible account is that the GTM gate was discussed as a
 direction at the 2026-08-14 sync but only formally confirmed four days later; this
 page uses the RAID log's date, corroborated by two independent same-day Slack posts,
