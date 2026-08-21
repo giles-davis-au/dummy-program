@@ -66,8 +66,8 @@ started" where dated evidence showed work already underway.
 | M10 | General Availability — national launch | Giles Davis | 2026-11-16 | Not started | **Not started** — consistent with evidence |
 
 Sources: [sources/notion/2026-10-01.md](../sources/notion/2026-10-01.md) (all
-milestone rows), corroborating Slack posts cited on each person's page (see
-[people/](../people/)).
+milestone rows), corroborating Slack posts cited on each person's page (see the
+"Team" section below, or [index.md](../index.md)'s People list).
 
 ## Decisions
 
