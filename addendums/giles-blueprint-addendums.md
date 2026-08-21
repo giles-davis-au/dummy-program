@@ -23,6 +23,7 @@ content is folded in below unchanged in substance.
 5. [Self-Audit Against a Rule's Full Literal Scope](#5-self-audit-against-a-rules-full-literal-scope)
 6. [Flag Unverified Claims About External Tool Behavior](#6-flag-unverified-claims-about-external-tool-behavior)
 7. [Track Deferred Items](#7-track-deferred-items)
+8. [Verification Tooling Needs the Same Intent-vs-Letter Audit as Prose Rules](#8-verification-tooling-needs-the-same-intent-vs-letter-audit-as-prose-rules)
 
 ---
 
@@ -448,6 +449,67 @@ section, 2026-10-01 (third bullet).
 
 ---
 
+## 8. Verification Tooling Needs the Same Intent-vs-Letter Audit as Prose Rules
+
+*Context: the owner spotted an unlabeled, faded node in Obsidian's graph view,
+linked to `flexpay-au`. Traced to `wiki/projects/flexpay-au.md` linking to
+`../people/` — the directory — instead of a specific note. `bin/lint-wiki` had
+already passed cleanly on this file every time it was run.*
+
+### The gap
+
+This isn't a repeat of [§5](#5-self-audit-against-a-rules-full-literal-scope) —
+that one is about a *person* (Claude) applying a rule too narrowly. This is about
+a *script*. `bin/lint-wiki`'s `check_link_targets` verified a link target with
+`os.path.exists(resolved)`. That's `True` for a directory, not just a file — so a
+link to `../people/` passed the check, even though it isn't a link to a note at
+all. The check satisfied the *letter* of "does this path exist" while missing the
+actual *intent* of the check, which is "does this link resolve to a page a reader
+can open." A directory link is broken in every context that matters (it opens
+nothing sensible in any viewer, and Obsidian's graph correctly renders it as an
+unresolved node) — but the automated safety net didn't catch it, because the net
+itself was checking a weaker property than the one it was meant to guarantee.
+
+### Why this is worth its own entry, not folding into §5
+
+§5 is about auditing *Claude's own reasoning* against a rule's full intent in the
+moment. This is about auditing *the deterministic tooling* a build relies on to
+catch mistakes automatically, after the fact, without depending on a human (or an
+LLM) noticing. They call for different responses: §5's fix is a habit ("take one
+more pass"); this one's fix is a code change (tighten the check once, and it's
+fixed for every future page, forever — no repeated vigilance required). Automated
+verification is the higher-leverage fix wherever it's available, precisely because
+it doesn't rely on remembering to apply a habit correctly every single time.
+
+### The rule
+
+**When writing or reviewing a structural/lint check, verify it actually enforces
+the property it claims to enforce — not a weaker, easier-to-satisfy proxy for it.**
+Concretely, for a link-integrity check: verify the target is a *file*
+(`os.path.isfile`), not merely that *some path* exists
+(`os.path.exists`, which is also true for directories). The general version:
+whenever a check's implementation is more permissive than the plain-English
+description of what it's supposed to guarantee, that gap is exactly where bugs
+will silently pass through undetected — and worse than a missing check, because a
+passing check creates false confidence that the property actually holds.
+
+### Where this fits in the blueprint
+
+Any future build's equivalent of `bin/lint-wiki` should get the same scrutiny this
+one just did: read each check's implementation next to its own stated purpose (in
+its docstring or the surrounding prose) and ask whether the code actually verifies
+that purpose, or something weaker that happens to overlap with it most of the
+time. Do this once, when the tooling is first written or extended — not only after
+a bug like this one surfaces in practice.
+
+**Status:** fixed in this repo's `bin/lint-wiki`, `check_link_targets`,
+2026-10-01 — both the body-link check and the frontmatter `sources:` citation
+check now use `os.path.isfile()`. Verified by injecting a directory link into
+`wiki/projects/flexpay-au.md`, confirming lint now errors on it, then restoring
+the file with no diff.
+
+---
+
 ## Log
 
 - **2026-10-01** — File created, consolidating `source-addressability-addendum.md`
@@ -467,3 +529,9 @@ section, 2026-10-01 (third bullet).
   external URL correctness, unrelated to which app reads the wiki). All 10 URLs in
   `wiki/sources/notion/2026-10-01.md` corrected and HTTP-verified. CLAUDE.md's
   Notion bullet and a new connector-URL-verification paragraph added the same day.
+- **2026-10-01 (follow-up 3)** — §8 added, after the owner spotted an unresolved
+  node in Obsidian's graph view traced to a directory link (`../people/`) in
+  `wiki/projects/flexpay-au.md` that `bin/lint-wiki` had never flagged.
+  `check_link_targets` tightened from `os.path.exists` to `os.path.isfile` for
+  both body links and frontmatter citations. No CLAUDE.md change — this was a
+  tooling gap, not a prose-rule gap.

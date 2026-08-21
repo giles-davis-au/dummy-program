@@ -19,6 +19,11 @@ STALE_DAYS = 30
 
 
 def check_link_targets(errors, warnings):
+    # isfile(), not exists(): a link to a directory (e.g. "../people/") passes
+    # exists() but isn't a note a reader can open -- Obsidian's graph renders it
+    # as an unresolved ghost node. The check should verify the same thing the
+    # rule actually means ("this points to a real page"), not just that the path
+    # is present on disk in any form.
     for path in W.durable_pages():
         meta, body = W.parse_page(path)
         for link in W.extract_links(body):
@@ -26,12 +31,12 @@ def check_link_targets(errors, warnings):
                 continue
             target = link.split("#")[0]
             resolved = os.path.normpath(os.path.join(os.path.dirname(path), target))
-            if not os.path.exists(resolved):
+            if not os.path.isfile(resolved):
                 errors.append(f"{W.repo_rel(path)}: broken link -> {link}")
         for src in meta.get("sources", []):
             target = src.split("#")[0]
             resolved = os.path.normpath(os.path.join(W.WIKI_ROOT, target))
-            if not os.path.exists(resolved):
+            if not os.path.isfile(resolved):
                 errors.append(f"{W.repo_rel(path)}: citation points to missing file -> {src}")
 
 
