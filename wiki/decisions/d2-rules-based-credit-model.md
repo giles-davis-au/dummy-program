@@ -33,10 +33,10 @@ model is deferred to a post-launch iteration. **Supersedes
 This is the most heavily corroborated decision in the programme so far — the same
 decision, dated 2026-08-12, is independently confirmed by the meeting notes doc, the
 RAID log's Decisions table, and four separate people posting to four different Slack
-channels the same day: Giles ([programme](../sources/slack/2026-10-01.md#slack-programme-20260812-1715)),
-Owen ([compliance](../sources/slack/2026-10-01.md#slack-compliance-20260812-1740)),
-Isla ([finance](../sources/slack/2026-10-01.md#slack-finance-20260812-1810)), and
-Priya ([legal](../sources/slack/2026-10-01.md#slack-legal-20260812-1802)).
+channels the same day: Giles ([Slack, #flexpay-programme](../sources/slack/2026-10-01.md#slack-programme-20260812-1715)),
+Owen ([Slack, #flexpay-compliance](../sources/slack/2026-10-01.md#slack-compliance-20260812-1740)),
+Isla ([Slack, #flexpay-finance](../sources/slack/2026-10-01.md#slack-finance-20260812-1810)), and
+Priya ([Slack, #flexpay-legal](../sources/slack/2026-10-01.md#slack-legal-20260812-1802)).
 
 **Downstream effects:**
 - Priya Shah re-based PDS drafting assumptions on the rules-based model — see

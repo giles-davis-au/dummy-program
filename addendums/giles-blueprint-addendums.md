@@ -418,7 +418,9 @@ still has four inline citations (`([programme](...))`, `([compliance](...))`,
 
 **Status:** rule incorporated into this repo's `CLAUDE.md`, "Live-link
 citations" section, 2026-10-01. `d2-rules-based-credit-model.md`'s four links
-not yet retroactively fixed.
+fixed 2026-10-01, in a later pass — this sat flagged-but-unactioned across
+several conversation turns after the rule itself was written, the exact
+failure [§8](#8-track-deferred-items) describes.
 
 ---
 
@@ -1105,3 +1107,9 @@ exists today, not a puzzle requiring a historical numbering key.
   the wiki itself at the time but never written up as its own rule. Rule
   added to CLAUDE.md's "Page structure and citation rules" section the same
   day, right after §13's.
+- **2026-10-01 (follow-up 11)** — Third of the four audit-identified items:
+  `d2-rules-based-credit-model.md`'s four inline Slack citations were finally
+  given the platform label §4's rule requires
+  (`([Slack, #flexpay-programme](...))` etc.), correcting a gap that had sat
+  flagged-but-unactioned since §4 was first written — the same failure §8
+  describes, happening in real time during the conversation about §8 itself.
