@@ -261,6 +261,14 @@ lane), or an explicit confidence/limit note if it can't be corroborated. Don't i
 categories (`domain/`, `processes/`) until a source actually demands one — this
 programme so far only needs projects, people, and decisions.
 
+**The frontmatter `sources:` list must be a complete manifest of every source this
+page's own body cites or relies on** — not a representative subset, and not
+satisfied by the same source being listed only on a different, cross-referenced
+page. If page A defers detailed citation to page B ("see B's page for the full
+citation"), A's own frontmatter still needs an entry for whatever A directly
+states itself. A citation existing somewhere in the wiki isn't the same as this
+specific page's manifest being accurate.
+
 ## The refresh workflow
 
 Refresh is not a script — it's the owner asking, in chat, for a refresh, e.g.:

@@ -56,6 +56,10 @@ entirely build tracking too, for the same reason.
 11. [Verify Aggregate Claims Against Every Instance They Describe](#11-verify-aggregate-claims-against-every-instance-they-describe)
 12. [Mechanical Checks for the Two Sub-Categories of §11 That Are Actually Checkable](#12-mechanical-checks-for-the-two-sub-categories-of-11-that-are-actually-checkable)
 
+**Appended (not yet relocated to its thematic group — see its own placement note)**
+
+13. [Frontmatter Must Be a Complete Source Manifest, Not a Subset](#13-frontmatter-must-be-a-complete-source-manifest-not-a-subset)
+
 ---
 
 ## 1. Source Addressability
@@ -865,6 +869,70 @@ described, not a new prose rule.
 
 ---
 
+## 13. Frontmatter Must Be a Complete Source Manifest, Not a Subset
+
+*Placement note: this belongs thematically with §2's citation-completeness
+group, not at the end — appended here rather than inserted-and-renumbered, to
+avoid the cross-reference risk a full renumbering carries. (The previous
+renumbering pass on this file did in fact miss a stale reference in
+`wiki/log.md` pointing at old section numbers — fixed in a separate commit,
+not recorded in this addendum itself.) Worth relocating in a future
+consolidated reorganization pass.*
+
+### The rule
+
+**A durable page's frontmatter `sources:` list must be a complete manifest of
+every source that page's own body cites or relies on — not a representative
+subset, and not satisfied by the same source appearing only on a different,
+cross-referenced page.** If page A states a fact directly and defers *further*
+detail to page B ("see B's page for the full account"), A's own frontmatter
+still needs an entry for whatever A itself states — A pointing at B doesn't
+make A's own manifest accurate.
+
+### Why this matters
+
+A frontmatter source list exists so a reader (or a session) can audit what a
+page relies on at a glance, without reading the whole body first. If the body
+cites something inline that never makes it into frontmatter, the manifest
+silently under-reports what the page actually depends on — and this is
+especially easy to miss when a page shares subject matter with another page
+that *does* carry the fuller citation, since it's tempting to treat the
+citation as "covered" once it exists anywhere in the wiki rather than
+specifically on the page making the claim.
+
+### Where this fits in the blueprint
+
+Add to the schema/instruction file's frontmatter/citation rules: the
+`sources:` field is a *complete* manifest for that specific page, not a
+best-effort subset — verify it by checking the field against the page's own
+body, not by confirming the citation exists somewhere in the wiki.
+
+### Illustrative example (generic, not tied to any specific programme)
+
+A project page's status table states a specific progress figure, drawn from a
+particular message, in its body text — but the page's frontmatter only lists
+the tracker database as a source. The message that's actually being relied on
+for the figure is never added to frontmatter, even though the body directly
+quotes it.
+
+---
+
+### Build notes (dummy-program-specific — exclude from merge)
+
+Found four real instances of this while doing other work, never in a
+dedicated sweep for it: the Milestones table's newly-added inline Slack
+citations were never added to `flexpay-au.md`'s own frontmatter after the
+citation rewrite; the Risks table had the same gap; and `people/ben-okafor.md`
+and `people/grace-lindqvist.md` each stated a Notion-status claim in their
+body without the corresponding Notion citation in their own frontmatter (the
+project page had it, they didn't).
+
+**Status:** the four found instances were fixed at the time. The *rule
+itself* was never written down until now — flagged as an outstanding item
+across two separate conversation checkpoints before actually being added.
+
+---
+
 ## Log (dummy-program-specific — exclude from merge)
 
 Section numbers in every entry below refer to this file's **current**
@@ -951,3 +1019,9 @@ exists today, not a puzzle requiring a historical numbering key.
   current wording) were checked directly against `ai-second-brain-blueprint.md`
   rather than trusted from an earlier session that predates this conversation
   — both confirmed accurate.
+- **2026-10-01 (follow-up 9)** — §13 added, the first of four items identified
+  in a full-conversation audit of outstanding threads that had been flagged but
+  never actually resolved. Appended rather than inserted into its natural
+  thematic position (alongside §2) to avoid another renumbering pass so soon
+  after the last one. Rule added to CLAUDE.md's "Page structure and citation
+  rules" section the same day.
