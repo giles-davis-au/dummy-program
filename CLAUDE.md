@@ -269,6 +269,15 @@ citation"), A's own frontmatter still needs an entry for whatever A directly
 states itself. A citation existing somewhere in the wiki isn't the same as this
 specific page's manifest being accurate.
 
+**When a durable page needs to reference one specific item that lives inside a
+table or list on another page** (e.g. one row of the Milestones table) and
+that item doesn't warrant its own durable page, link to the smallest existing
+heading that contains it (e.g. the enclosing `## Milestones` section) — not to
+an unrelated but nearby entity as a substitute, and not by inventing a
+per-row anchor a table structurally can't hold (see "Live-link citations" on
+heading-as-slug anchors, which only work as real Markdown headings, never
+inside a table cell).
+
 ## The refresh workflow
 
 Refresh is not a script — it's the owner asking, in chat, for a refresh, e.g.:

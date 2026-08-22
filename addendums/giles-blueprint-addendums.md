@@ -59,6 +59,7 @@ entirely build tracking too, for the same reason.
 **Appended (not yet relocated to its thematic group — see its own placement note)**
 
 13. [Frontmatter Must Be a Complete Source Manifest, Not a Subset](#13-frontmatter-must-be-a-complete-source-manifest-not-a-subset)
+14. [Reference a Non-Durable Item by Its Smallest Containing Heading](#14-reference-a-non-durable-item-by-its-smallest-containing-heading)
 
 ---
 
@@ -933,6 +934,78 @@ across two separate conversation checkpoints before actually being added.
 
 ---
 
+## 14. Reference a Non-Durable Item by Its Smallest Containing Heading
+
+*Placement note: this belongs thematically with §3's anchor-navigation group
+— appended here rather than inserted-and-renumbered, same reasoning as §13.*
+
+### The rule
+
+**When a durable page needs to reference one specific item that lives inside
+a table or list on another page — and that item doesn't warrant becoming its
+own durable page — link to the smallest existing heading that contains it,
+not to an unrelated but nearby entity as a substitute, and not by inventing a
+new per-item anchor.** A table row can't hold its own Markdown heading (see
+[§3](#3-anchor-navigation-heading-as-slug-not-a-id-tags) — headings are the
+only anchor mechanism proven to actually work), so there's no way to link
+*precisely* to one row. The resolution is to link at the *section* level
+(e.g. the enclosing `## Milestones` heading) — accurate about where to look,
+even without row-level precision — rather than either fabricating anchor
+infrastructure a table can't structurally support, or substituting a
+different, only-tangentially-related entity that merely happens to have a
+real page nearby.
+
+### Why this matters
+
+Not every tracked entity deserves its own durable page — granular items
+(individual milestones, tasks, tickets) are usually better kept as rows in a
+table on a project page, to avoid duplicating an external tracker's full
+detail into the wiki. But other durable pages sometimes need to reference
+*one specific* such item precisely — e.g. a decision page whose gate depends
+on one milestone's completion. Without a stated rule, the natural failure
+mode is picking whatever *does* have a working link nearby as a stand-in,
+even when it's the wrong thing — which produces a misleading picture of what
+actually depends on what (visible directly in a tool like Obsidian's graph
+view, where the substitute entity ends up looking connected to something it
+isn't really about).
+
+### Where this fits in the blueprint
+
+Add to the schema/instruction file's cross-reference guidance: referencing a
+granular, non-durable item (a table row, a tracker entry) should link to the
+smallest existing heading that contains it, never to an unrelated entity
+picked only because it has a working anchor. Pair this with the
+heading-as-slug anchor rule ([§3](#3-anchor-navigation-heading-as-slug-not-a-id-tags))
+so both the "how to anchor a section" and "how to reference something inside
+one" rules sit together.
+
+### Illustrative example (generic, not tied to any specific programme)
+
+A decision page states its rollout is gated on a specific milestone's
+completion. That milestone is one row in a status table on a different page,
+with no anchor of its own. Rather than linking to a different, textually
+adjacent decision that happens to have its own page, the decision links to
+the table's enclosing section heading on the project page instead.
+
+---
+
+### Build notes (dummy-program-specific — exclude from merge)
+
+The literal case: `d4-gtm-spend-gate.md`'s gate depends on milestone M08's
+completion, but M08 has no anchor of its own — it's one row in
+`flexpay-au.md`'s Milestones table. It originally linked to `d3-sydney-pilot.md`
+(the decision that established the Sydney-pilot concept) as a stand-in, since
+D3 had a real page and M08 didn't — which made Obsidian's graph show D4
+connected to D3 directly, misrepresenting what D4 actually depends on (M08's
+completion, not D3's existence). Resolved by linking both D3's and D4's M08
+mentions to `../projects/flexpay-au.md#milestones` (the existing section
+heading) instead.
+
+**Status:** the specific D3/D4 fix was made at the time this was discovered.
+The rule itself was never written down as its own addendum entry until now.
+
+---
+
 ## Log (dummy-program-specific — exclude from merge)
 
 Section numbers in every entry below refer to this file's **current**
@@ -1025,3 +1098,10 @@ exists today, not a puzzle requiring a historical numbering key.
   thematic position (alongside §2) to avoid another renumbering pass so soon
   after the last one. Rule added to CLAUDE.md's "Page structure and citation
   rules" section the same day.
+- **2026-10-01 (follow-up 10)** — §14 added, the second of the four
+  audit-identified items: the D3/D4/M08 lesson (link to the smallest
+  containing heading for a non-durable, table-row item rather than
+  substituting an unrelated entity with a working anchor) had been resolved in
+  the wiki itself at the time but never written up as its own rule. Rule
+  added to CLAUDE.md's "Page structure and citation rules" section the same
+  day, right after §13's.
