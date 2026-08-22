@@ -72,7 +72,8 @@ lists all 14 durable pages, no orphans. `current-state.md` / `.json` /
 
 `bin/lint-wiki` gained two new content checks after this refresh (verbatim-quote
 verification; relative-date-language flagging on cited Slack messages — see
-`addendums/giles-blueprint-addendums.md` §8/§9 for why). Running them surfaced
+`addendums/giles-blueprint-addendums.md` §9/§11 for why — renumbered from §8/§9
+in a later addendum restructuring pass). Running them surfaced
 several accuracy defects that predated the checks. Per the owner's explicit
 direction — this dummy-program is an active exercise for evaluating the wiki
 pattern itself, not a live production audit trail, so the priority here is the
