@@ -61,7 +61,7 @@ second_brain:
     - "Claude Code"
   source_lanes:
     - "Slack (bot-authored, see Section 1 above for the authorship convention)"
-    - "Notion (task tracker — stands in for a Linear/Jira-style lane; not one of the blueprint's canonical lanes, treat it as one)"
+    - "Notion (task tracker — stands in for a Linear/Jira-style lane; not a canonical lane in the blueprint, treat it as one)"
     - "Google Drive (one Doc, one Sheet)"
   private_scope: "none — nothing in this dataset is real or sensitive"
   shareable_scope: "everything"
@@ -70,20 +70,20 @@ second_brain:
   external_messaging: "off — do not post back to Slack, Notion, or Drive during the build"
 ```
 
-- **Hosting mode: local only.** Skip Option B (private GitHub) and Option C (hybrid), and skip the entire "For GitHub hosting" access section, the unattended-automation tooling section, and Version 4. Target the blueprint's **Version 0/1** minimum viable build: schema, folders, index, log, ingest, generated state, retrieval, and a read-only chat connection. No branches, no draft pull requests, no service identities.
-- **Source lanes are narrower than his default list.** Only Slack, Notion, and Google Drive exist in this environment. There is no Gmail, Calendar, Granola, Linear, Jira, or Glean — don't attempt to query them or report them as "unavailable," they're simply out of scope for this exercise.
+- **Hosting mode: local only.** Skip Option B (private GitHub) and Option C (hybrid), and skip the entire "For GitHub hosting" access section, the unattended-automation tooling section, and Version 4. Target the **Version 0/1** minimum viable build described in the blueprint: schema, folders, index, log, ingest, generated state, retrieval, and a read-only chat connection. No branches, no draft pull requests, no service identities.
+- **Source lanes are narrower than the default list in the blueprint.** Only Slack, Notion, and Google Drive exist in this environment. There is no Gmail, Calendar, Granola, Linear, Jira, or Glean — don't attempt to query them or report them as "unavailable," they're simply out of scope for this exercise.
 - **External messaging stays off.** The same Slack MCP tools used to read this dataset can also post. Nothing in the build process should post to Slack, comment in Notion, or edit the Google Doc/Sheet — those three are read-only sources for this exercise. All writes go to the local wiki folder only.
-- **Privacy/redaction is structural, not substantive.** Nothing in this dataset is real, so there's no actual PII or credential to redact. Still keep the `sources/` layer structurally distinct from the durable wiki layer (per the blueprint's Section 2 rules) for fidelity to the exercise — just don't expect the privacy-check tests to find anything to catch.
+- **Privacy/redaction is structural, not substantive.** Nothing in this dataset is real, so there's no actual PII or credential to redact. Still keep the `sources/` layer structurally distinct from the durable wiki layer (per Section 2 of the blueprint) for fidelity to the exercise — just don't expect the privacy-check tests to find anything to catch.
 
 ## 8. Guardrails specific to this dataset (everything else is already in the blueprint)
 
 Before adding anything here, check the blueprint first — most of what a "guardrail" might cover (contradiction resolution, citations, confidence limits, decision supersession, making absence visible, acceptance testing) is already specified there, in more depth than a short addendum could add. Restating a weaker version of its own rules next to its rules risks reading as a second, conflicting protocol — don't.
 
-The one thing genuinely not covered: the blueprint's Stage 6 contradiction protocol includes "artifact type" as one of five dimensions (explicit decision, current-state record, working draft, or foundational background) but never spells out where an informal chat aside sits on that scale. For this exercise: **a Slack remark that was never escalated into a RAID entry or a meeting-note mention is below "working draft" — it does not get a durable risk or decision page on its own.** It can still be surfaced if asked about directly (per "make absence visible" — an unescalated concern shouldn't be hidden either), but it should read as informal and uncorroborated, not as tracked programme state.
+The one thing genuinely not covered: the Stage 6 contradiction protocol in the blueprint includes "artifact type" as one of five dimensions (explicit decision, current-state record, working draft, or foundational background) but never spells out where an informal chat aside sits on that scale. For this exercise: **a Slack remark that was never escalated into a RAID entry or a meeting-note mention is below "working draft" — it does not get a durable risk or decision page on its own.** It can still be surfaced if asked about directly (per "make absence visible" — an unescalated concern shouldn't be hidden either), but it should read as informal and uncorroborated, not as tracked programme state.
 
 ## 9. Two acceptance scenarios worth running in addition to its 15
 
-The blueprint's 15 acceptance scenarios (see "Acceptance scenarios" in the blueprint) thoroughly exercise contradiction handling — new wins, wiki wins, unresolved, connector outage, no activity. Two of this dataset's five deliberate test cases exercise behavior those scenarios don't explicitly test. Worth running these as additional scenarios, in the same format:
+The 15 acceptance scenarios in the blueprint (see "Acceptance scenarios") thoroughly exercise contradiction handling — new wins, wiki wins, unresolved, connector outage, no activity. Two of this dataset's five deliberate test cases exercise behavior those scenarios don't explicitly test. Worth running these as additional scenarios, in the same format:
 
 16. **Informal signal, not promoted:** an uncorroborated Slack aside about a possible technical concern should not appear in the wiki as a tracked risk or decision. Asked directly, the wiki may surface it, but must frame it as an informal, unescalated, single-source remark — not equivalent in status to a RAID-logged risk.
 17. **Single-source claim, flagged as such:** a fact reported in exactly one source, with no corroboration elsewhere, should be surfaced with a visible single-source caveat when asked about it directly — not presented with the same confidence as a fact corroborated across multiple sources.
