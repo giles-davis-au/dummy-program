@@ -3,9 +3,8 @@
 This file is the canonical instruction set for this repository. Claude Code loads it
 automatically. Read it before any ingest, refresh, query, or lint action.
 
-Built from [an AI second-brain blueprint](ai-second-brain-blueprint.md)
-(local-only, Version 0/1 minimum viable build). Where this file is silent, defer to
-the blueprint.
+Built from an AI second-brain blueprint (local-only, Version 0/1 minimum viable
+build). Where this file is silent, defer to the blueprint.
 
 ## Repository layout
 
