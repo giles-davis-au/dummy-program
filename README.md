@@ -1,11 +1,13 @@
 # FlexPay AU Second Brain (local-only)
 
 A living Markdown wiki for the synthetic FlexPay AU programme, built per a
-second-brain blueprint — local-only, Version 0/1 (manual local wiki + generated
-state + read-only chat connection). See
+second-brain blueprint — local-only, Version 0/1, as a practical exercise in
+applying AI tooling to programme-management work. See
 [synthetic-dataset-reading-guide.md](synthetic-dataset-reading-guide.md) for the
 dataset-specific quirks this build corrects for, and [CLAUDE.md](CLAUDE.md) for the
 full operating contract.
+
+By [Giles Davis](https://www.linkedin.com/in/gilesbdavis/)
 
 ## Context for reviewers
 
