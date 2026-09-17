@@ -108,3 +108,20 @@ reviewed individually and confirmed as expected false positives from the two new
 heuristic checks (either quoting CLAUDE.md's own defined vocabulary rather than a
 source, or citing a message with incidental relative-date language that isn't
 actually load-bearing for any nearby claim) — not further action items.
+
+## Repo housekeeping — 2026-09-17 (not a refresh, as-of cursor unchanged)
+
+`addendums/giles-blueprint-addendums.md` renamed to
+`addendums/build-history-addendums.md`, and a new
+`addendums/portable-addendums.md` split out of it: the same 14 rules with
+their build notes, incorporation status, and file-level Log stripped out,
+leaving just rule + rationale + blueprint insertion point — meant to actually
+merge into a v2 blueprint or seed a fresh instruction file, per the owner's
+question about whether the full file's length was necessary for that purpose
+(it wasn't — roughly 40% of it was build-specific tracking, self-labeled
+exclude-from-merge, plus further compressible rhetorical framing in the
+remainder). `build-history-addendums.md` keeps the full version, including
+the point this entry itself references below. This file's own earlier
+reference to the old filename (§9/§11, in "Post-build corrections" above) is
+left as originally written, per this log's append-only rule — the current
+filename is `build-history-addendums.md`.

@@ -1,8 +1,18 @@
-# Giles' Blueprint Addendums
+# Giles' Blueprint Addendums — Build History
 
 *This section (the file intro) is itself dummy-program/maintenance-specific —
 exclude from merge, same as every section's "Build notes" and the file-level
 `## Log`.*
+
+**This is the full working file — this build's own audit trail, not the
+reusable output.** Each of the 14 entries below is kept in full alongside the
+concrete FlexPay AU example that surfaced it and this repo's own
+incorporation status. For just the 14 rules distilled to what a fresh build
+actually needs — no build-specific history, no incorporation tracking — see
+[portable-addendums.md](portable-addendums.md), split out from this file once
+it was clear the two were serving different readers: this file for anyone
+auditing how and when each gap was found and fixed, that one for merging into
+a v2 blueprint or a fresh instruction file.
 
 Addendum to [ai-second-brain-blueprint.md](../ai-second-brain-blueprint.md) and to
 [CLAUDE.md](../CLAUDE.md). **Maintained by the owner (Giles Davis)** — Claude Code
