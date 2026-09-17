@@ -7,6 +7,40 @@ state + read-only chat connection). See
 dataset-specific quirks this build corrects for, and [CLAUDE.md](CLAUDE.md) for the
 full operating contract.
 
+## Context for reviewers
+
+### The blueprint this method is based on
+
+This wiki's method (schema, refresh workflow, contradiction-resolution rules) was
+originally set out in a private "second-brain blueprint" document written by a
+former colleague. That document isn't in this repo. It was written by someone
+else, for a problem they needed to solve.
+
+What I have done is
+
+* Built from scratch a synthetic programme to have something real to run the
+  method against (see [synthetic-dataset-reading-guide.md](synthetic-dataset-reading-guide.md))
+* Setup required connectors to Slack, Notion, GDrive in order for Claude Code to
+  access the synthetic programme artefacts
+* Instructed Claude Code to use the blueprint to generate the wiki, and cater for
+  ongoing refreshes of the wiki (as 'synthetic time' passes in the programme and
+  activities progress, slack comments posted, decisions made and recorded in the
+  RAID log, etc)
+* Implemented 14 enhancements to the base Claude instructions, and created the
+  associated addendums/build-history-addendums.md file, so that when I implement
+  the blueprint against a real program in future, those can be incorporated.
+  These were also shared with my former colleague in case they wanted to fold
+  any of them into their version
+* Built the supporting tooling (`bin/lint-wiki`, `bin/regenerate-state`,
+  `bin/retrieve`) that mechanically checks the wiki for broken links, orphan
+  pages, missing frontmatter, and fabricated or misdated quotes, and
+  deterministically rebuilds its generated state and search index — since the
+  blueprint describes the method, not the code that enforces it
+
+Where CLAUDE.md, the addendums, or synthetic-dataset-reading-guide.md reference
+"the blueprint," that's what they mean: a source I built against, not something
+reproduced here.
+
 ## Layout
 
 `wiki/` holds only the knowledge system — nothing implementation- or test-related.
