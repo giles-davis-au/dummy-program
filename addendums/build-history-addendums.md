@@ -14,8 +14,9 @@ it was clear the two were serving different readers: this file for anyone
 auditing how and when each gap was found and fixed, that one for merging into
 a v2 blueprint or a fresh instruction file.
 
-Addendum to [ai-second-brain-blueprint.md](../ai-second-brain-blueprint.md) and to
-[CLAUDE.md](../CLAUDE.md). **Maintained by the owner (Giles Davis)** — Claude Code
+Addendum to `ai-second-brain-blueprint.md` (not included in this repo — see
+the README's "Context for reviewers") and to [CLAUDE.md](../CLAUDE.md).
+**Maintained by the owner (Giles Davis)** — Claude Code
 should read this file before a refresh, alongside CLAUDE.md, but should not write
 to it (see CLAUDE.md's "What the agent may edit"). Where an entry here conflicts
 with CLAUDE.md or the blueprint, this file wins — it exists precisely to record
