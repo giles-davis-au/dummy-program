@@ -28,7 +28,7 @@ What I have done is
   RAID log, etc)
 * Implemented 14 enhancements to the base Claude instructions, and created the
   associated addendums/build-history-addendums.md file, so that when I implement
-  the blueprint against a real program in future, those can be incorporated.
+  the blueprint against a real programme in future, those can be incorporated.
   These were also shared with my former colleague in case they wanted to fold
   any of them into their version
 * Built the supporting tooling (`bin/lint-wiki`, `bin/regenerate-state`,
@@ -40,6 +40,39 @@ What I have done is
 Where CLAUDE.md, the addendums, or synthetic-dataset-reading-guide.md reference
 "the blueprint," that's what they mean: a source I built against, not something
 reproduced here.
+
+### Why there's no UI
+
+There's deliberately no UI in this repo, and there isn't meant to be one. The
+programme's "raw" data (a synthetic Slack workspace with posts from pretend
+stakeholders, a Notion milestone board, a RAID log, meeting notes) lives in
+those actual connected apps, not as files here.
+
+When Claude Code actions a "refresh", it reads them live through each app's
+own connector, the same way it would for a real programme.
+
+What's committed to this repo is the output of that process: the generated
+wiki, its generated state, and the instruction/tooling layer that produced it.
+
+It's the generated wiki (plain text markdown files) that Claude Code uses as
+context when I ask it specific questions, rather than needing to interrogate
+the source data.
+
+A real programme would generate more of these files, and larger ones.
+
+The repo can be cloned to a local machine. Claude Code can then be asked key
+questions (e.g. "what's the biggest current risk to the delivery deadline?",
+"where do I need to focus my time today?") and it will respond.
+
+A UI tool such as Obsidian can also be used to understand the relationships
+between those markdown files / programme entities.
+
+However you will not have access to the source programme collateral, since
+the underlying Slack/Notion/Drive workspaces aren't public.
+
+So to best appreciate the application of this LLM wiki concept, and how I see
+it enabling a programme manager to be more effective, please reach out for a
+walkthrough.
 
 ## Layout
 
